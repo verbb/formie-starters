@@ -1,0 +1,40 @@
+{% set examples = {
+    singlePage: {
+        id: 'singlePage',
+        handle: 'singlePage',
+        title: 'Single-page',
+        description: 'A simple contact-style form for comparing presentation options quickly.',
+    },
+    multiPage: {
+        id: 'multiPage',
+        handle: 'multiPage',
+        title: 'Multi-page',
+        description: 'A guided multi-step form for checking navigation, continuity, and progress state.',
+    },
+    advanced: {
+        id: 'advanced',
+        handle: 'advanced',
+        title: 'Advanced',
+        description: 'A richer form intended for conditional logic, summaries, and heavier interactions.',
+    },
+} %}
+
+{% set exampleId = signals.example ?? 'singlePage' %}
+
+<div id="datastar-main-panel" class="space-y-4">
+    {% for item in examples %}
+        <section
+            class="starter-form-wrap"
+            data-show="$example == '{{ item.id }}'"
+            {{ exampleId != item.id ? 'style="display:none;"' }}
+        >
+            <div class="mb-5">
+                <p class="text-[0.72rem] font-semibold tracking-[0.18em] text-sky-500 uppercase">Datastar</p>
+                <h2 class="mt-2 text-[clamp(1.45rem,2vw,2rem)] font-semibold leading-tight text-slate-900">{{ item.title }}</h2>
+                <p class="starter-demo-copy mt-2">{{ item.description }}</p>
+            </div>
+
+            {{ craft.formie.renderForm(item.handle) }}
+        </section>
+    {% endfor %}
+</div>

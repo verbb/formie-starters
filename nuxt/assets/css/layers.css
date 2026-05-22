@@ -1,0 +1,145 @@
+@layer theme, base, components, utilities, formie-base, formie-theme-base, formie-theme;
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: #eef0f4;
+  color: #0f172a;
+  font-family: ui-sans-serif, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.demo-code {
+  background: transparent;
+}
+
+.demo-code code[class*="language-"],
+.demo-code pre[class*="language-"] {
+  background: transparent;
+  text-shadow: none;
+  margin: 0;
+  padding: 0;
+  font-family: ui-monospace, SFMono-Regular, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Prism's unlayered `pre[class*="language-"]` overrides Tailwind utilities. Only `<code>`
+   should carry `language-*`; if `<pre>` has it, re-assert the code-panel layout. */
+pre.demo-code[class*="language-"] {
+  margin: 0;
+  padding: 1.5rem;
+  background: transparent;
+  text-shadow: none;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: #334155;
+  overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.demo-code .token.comment,
+.demo-code .token.prolog,
+.demo-code .token.doctype,
+.demo-code .token.cdata {
+  color: #94a3b8;
+}
+
+.demo-code .token.property,
+.demo-code .token.tag,
+.demo-code .token.boolean,
+.demo-code .token.number,
+.demo-code .token.constant,
+.demo-code .token.symbol,
+.demo-code .token.deleted {
+  color: #2563eb;
+}
+
+.demo-code .token.selector,
+.demo-code .token.attr-name,
+.demo-code .token.string,
+.demo-code .token.char,
+.demo-code .token.builtin,
+.demo-code .token.inserted {
+  color: #059669;
+}
+
+.demo-code .token.operator,
+.demo-code .token.entity,
+.demo-code .token.url,
+.demo-code .language-css .token.string,
+.demo-code .style .token.string {
+  color: #475569;
+}
+
+.demo-code .token.atrule,
+.demo-code .token.attr-value,
+.demo-code .token.keyword {
+  color: #7c3aed;
+}
+
+.demo-code .token.function,
+.demo-code .token.class-name {
+  color: #0f766e;
+}
+
+.demo-code .token.regex,
+.demo-code .token.important,
+.demo-code .token.variable {
+  color: #ea580c;
+}
+
+.demo-preview[data-scenario="unstyled-output"] button,
+.demo-preview[data-scenario="unstyled-output"] input,
+.demo-preview[data-scenario="unstyled-output"] select,
+.demo-preview[data-scenario="unstyled-output"] optgroup,
+.demo-preview[data-scenario="unstyled-output"] textarea,
+.demo-preview[data-scenario="unstyled-output"] ::file-selector-button {
+  all: revert;
+}
+
+.demo-preview[data-scenario="unstyled-output"] button,
+.demo-preview[data-scenario="unstyled-output"] input,
+.demo-preview[data-scenario="unstyled-output"] select,
+.demo-preview[data-scenario="unstyled-output"] textarea {
+  font: revert;
+}
+
+.demo-preview[data-scenario="custom-styling"] .starter-field {
+  border-radius: 1rem;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.demo-preview[data-scenario="custom-styling"] .starter-field[data-formie-field-type="email"] {
+  border: 1px solid #c4b5fd;
+  background: linear-gradient(180deg, #f5f3ff 0%, #ffffff 100%);
+  box-shadow: 0 10px 30px -22px rgba(124, 58, 237, 0.55);
+  padding: 1rem;
+}
+
+.demo-preview[data-scenario="custom-styling"] .starter-field[data-formie-field-type="email"] .starter-label {
+  color: #6d28d9;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.demo-preview[data-scenario="custom-styling"] .starter-field[data-formie-field-type="email"] .starter-control input,
+.demo-preview[data-scenario="custom-styling"] .starter-field[data-formie-field-type="email"] .starter-control textarea,
+.demo-preview[data-scenario="custom-styling"] .starter-field[data-formie-field-type="email"] .starter-control select {
+  border-color: #a78bfa;
+  box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.35);
+}
+
+/* Match Formie theme body tokens on the HTML mount shell so wrapper nodes outside
+   `form.formie-form` do not inherit the preview card’s `text-slate-900` scale/color. */
+@layer formie-theme {
+  .demo-preview {
+    display: block;
+    width: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    font-weight: 400;
+    color: #334155;
+    background-color: #ffffff;
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "name": "formie-starters",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -k -n react,vue,web,next,nuxt,barba -c blue,green,magenta,cyan,yellow,red \"npm run dev --prefix react\" \"npm run dev --prefix vue\" \"npm run dev --prefix web\" \"npm run dev --prefix next\" \"npm run dev --prefix nuxt\"",
+    "build": "npm run build:react && npm run build:vue && npm run build:web && npm run build:next && npm run build:nuxt",
+    "build:react": "npm run build --prefix react",
+    "build:vue": "npm run build --prefix vue",
+    "build:web": "npm run build --prefix web",
+    "build:next": "npm run build --prefix next",
+    "build:nuxt": "npm run build --prefix nuxt",
+    "dev:react": "npm run dev --prefix react",
+    "dev:vue": "npm run dev --prefix vue",
+    "dev:web": "npm run dev --prefix web",
+    "dev:next": "npm run dev --prefix next",
+    "dev:nuxt": "npm run dev --prefix nuxt"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

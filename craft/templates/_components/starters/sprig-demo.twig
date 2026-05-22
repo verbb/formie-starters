@@ -1,0 +1,55 @@
+{% set examples = {
+    singlePage: {
+        id: 'singlePage',
+        handle: 'singlePage',
+        title: 'Single-page',
+        description: 'A simple contact-style form for comparing presentation options quickly.',
+    },
+    multiPage: {
+        id: 'multiPage',
+        handle: 'multiPage',
+        title: 'Multi-page',
+        description: 'A guided multi-step form for checking navigation, continuity, and progress state.',
+    },
+    advanced: {
+        id: 'advanced',
+        handle: 'advanced',
+        title: 'Advanced',
+        description: 'A richer form intended for conditional logic, summaries, and heavier interactions.',
+    },
+} %}
+
+{% set exampleId = example ?? 'singlePage' %}
+{% set story = examples[exampleId] ?? examples.singlePage %}
+
+<div id="sprig-starter" class="grid items-start gap-6 lg:grid-cols-[12rem_minmax(0,1fr)]">
+    <aside class="lg:sticky lg:top-24">
+        <p class="mb-4 px-3 text-[0.72rem] font-semibold tracking-[0.18em] text-slate-500 uppercase">Choose form</p>
+
+        <div class="space-y-1">
+            {% for item in examples %}
+                <button
+                    type="button"
+                    sprig
+                    s-val:example="{{ item.id }}"
+                    s-replace="#sprig-panel"
+                    data-sprig-nav="{{ item.id }}"
+                    aria-current="{{ item.id == story.id ? 'true' : 'false' }}"
+                    class="block w-full rounded-xl px-3 py-2 text-left text-sm transition {{ item.id == story.id ? 'bg-white font-medium text-slate-900 shadow-[0_10px_24px_-22px_rgba(15,23,42,0.45)]' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}"
+                >
+                    {{ item.title }}
+                </button>
+            {% endfor %}
+        </div>
+    </aside>
+
+    <section id="sprig-panel" class="starter-form-wrap">
+        <div class="mb-5">
+            <p class="text-[0.72rem] font-semibold tracking-[0.18em] text-violet-500 uppercase">Sprig</p>
+            <h2 class="mt-2 text-[clamp(1.45rem,2vw,2rem)] font-semibold leading-tight text-slate-900">{{ story.title }}</h2>
+            <p class="starter-demo-copy mt-2">{{ story.description }}</p>
+        </div>
+
+        {{ craft.formie.renderForm(story.handle) }}
+    </section>
+</div>

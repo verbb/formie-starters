@@ -1,0 +1,170 @@
+.formie-form {
+  display: grid;
+  gap: var(--formie-gap-form);
+}
+
+.formie-form .formie-field {
+  display: grid;
+  gap: var(--formie-gap-field);
+}
+
+.formie-form .formie-field-layout {
+  display: grid;
+  gap: var(--formie-gap-field-layout);
+}
+
+.formie-form .formie-field-content {
+  display: grid;
+  gap: var(--formie-gap-field-content);
+  min-inline-size: 0;
+}
+
+.formie-form .formie-field-control {
+  display: grid;
+  gap: var(--formie-gap-field-control);
+}
+
+.formie-form .formie-row {
+  display: grid;
+  gap: var(--formie-gap-row);
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+}
+
+@media (min-width: 40rem) {
+  .formie-form .formie-row[data-formie-field-count="2"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 56rem) {
+  .formie-form .formie-row[data-formie-field-count="3"] {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .formie-form .formie-row[data-formie-field-count="4"] {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.formie-form .formie-label,
+.formie-form .formie-field-label,
+.formie-form .formie-field-option-label,
+.formie-form .formie-summary-label {
+  color: var(--formie-color-heading);
+  font-size: var(--formie-label-size);
+  font-weight: var(--formie-font-weight-medium);
+  line-height: var(--formie-line-height-tight);
+}
+
+.formie-form label.formie-field-label {
+  display: block;
+}
+
+.formie-form .formie-instructions {
+  color: var(--formie-color-text-muted);
+  font-size: var(--formie-meta-size);
+  line-height: var(--formie-line-height-relaxed);
+  margin-top: calc(var(--formie-space-1) * -1);
+}
+
+.formie-form .formie-input,
+.formie-form .formie-textarea,
+.formie-form .formie-select {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: var(--formie-control-height);
+  padding: var(--formie-control-padding-y) var(--formie-control-padding-x);
+  font-size: var(--formie-control-font-size);
+  line-height: var(--formie-line-height-tight);
+  border: var(--formie-border-width) solid var(--formie-color-border);
+  border-radius: var(--formie-radius-sm);
+  background: var(--formie-color-surface);
+  transition: border-color 150ms ease, box-shadow 150ms ease, background-color 150ms ease;
+}
+
+.formie-form .formie-textarea {
+  min-height: var(--formie-textarea-min-height);
+  resize: vertical;
+}
+
+.formie-form .formie-select {
+  appearance: none;
+}
+
+.formie-form .formie-select:not([multiple]):not([size]),
+.formie-form .formie-select[size="1"] {
+  padding-right: calc(var(--formie-control-padding-x) * 3);
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M7 7l3-3 3 3m0 6l-3 3-3-3' stroke='%239CA3AF' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-position: right var(--formie-space-2) center;
+  background-repeat: no-repeat;
+  background-size: var(--formie-select-indicator-size) var(--formie-select-indicator-size);
+}
+
+.formie-form .formie-input:focus,
+.formie-form .formie-textarea:focus,
+.formie-form .formie-select:focus {
+  outline: 0;
+}
+
+.formie-form .formie-input:focus-visible,
+.formie-form .formie-textarea:focus-visible,
+.formie-form .formie-select:focus-visible {
+  outline: 0;
+  border-color: var(--formie-color-focus-ring);
+  box-shadow: var(--formie-shadow-focus);
+}
+
+.formie-form .formie-button {
+  --formie-loading-color: var(--formie-button-color);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--formie-button-gap);
+  min-height: var(--formie-button-min-height);
+  flex-shrink: 0;
+  appearance: none;
+  cursor: pointer;
+  user-select: none;
+  border: var(--formie-button-border);
+  border-radius: var(--formie-button-border-radius);
+  background-color: var(--formie-button-background);
+  color: var(--formie-button-color);
+  padding: var(--formie-button-padding-y) var(--formie-button-padding-x);
+  font-size: var(--formie-button-font-size);
+  line-height: var(--formie-button-line-height);
+  font-weight: var(--formie-button-font-weight);
+  position: relative;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: background-color 150ms ease, border-color 150ms ease, box-shadow 150ms ease, color 150ms ease, opacity 150ms ease;
+}
+
+.formie-form .formie-button:hover {
+  background-color: var(--formie-button-background-hover);
+  border: var(--formie-button-border-hover);
+}
+
+.formie-form .formie-button:focus,
+.formie-form .formie-button:focus-visible {
+  outline: 0;
+}
+
+.formie-form .formie-button:focus-visible {
+  box-shadow: var(--formie-button-shadow-focus);
+}
+
+.formie-form .formie-button-primary {
+  --formie-button-color: var(--formie-button-primary-text-color);
+  background-color: var(--formie-button-primary-background);
+  border: var(--formie-button-primary-border);
+}
+
+.formie-form .formie-button-primary:hover {
+  background-color: var(--formie-button-primary-background-hover);
+  border: var(--formie-button-primary-border-hover);
+}
+
+.formie-form .formie-button-primary:focus-visible {
+  box-shadow: var(--formie-button-primary-shadow-focus);
+}

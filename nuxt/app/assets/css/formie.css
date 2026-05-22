@@ -1,0 +1,4 @@
+@layer theme, base, components, utilities, formie-base, formie-theme-base, formie-theme;
+
+@import "@verbb/formie-browser/css/formie-base.css";
+@import "@verbb/formie-browser/css/formie-theme.css";

@@ -1,0 +1,71 @@
+{% extends '_starters/layout' %}
+{% import '_starters/_macros.twig' as ui %}
+
+{% set pageTitle = 'Formie Sprig Starter' %}
+
+{% block head %}
+    <script>
+    (() => {
+        if (window.__formieSprigStarterReady) {
+            return;
+        }
+
+        window.__formieSprigStarterReady = true;
+
+        const activeClasses = ['bg-white', 'font-medium', 'text-slate-900', 'shadow-[0_10px_24px_-22px_rgba(15,23,42,0.45)]'];
+        const inactiveClasses = ['text-slate-600', 'hover:bg-slate-50', 'hover:text-slate-900'];
+
+        const syncSprigNav = (activeId) => {
+            document.querySelectorAll('[data-sprig-nav]').forEach((button) => {
+                const isActive = button.dataset.sprigNav === activeId;
+
+                activeClasses.forEach((className) => {
+                    button.classList.toggle(className, isActive);
+                });
+
+                inactiveClasses.forEach((className) => {
+                    button.classList.toggle(className, !isActive);
+                });
+
+                button.setAttribute('aria-current', isActive ? 'true' : 'false');
+            });
+        };
+
+        document.addEventListener('click', (event) => {
+            const button = event.target.closest('[data-sprig-nav]');
+
+            if (!button) {
+                return;
+            }
+
+            syncSprigNav(button.dataset.sprigNav);
+        });
+
+    })();
+    </script>
+{% endblock %}
+
+{% block page %}
+    <div class="min-h-screen">
+        <header class="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur">
+            <div class="mx-auto flex max-w-6xl items-center gap-3 px-6 py-3 shadow-[0_8px_24px_-18px_rgba(15,23,42,0.35)] md:px-8">
+                <a href="/" class="flex items-center gap-3">
+                    {{ ui.formieLogo('h-6 w-6 shrink-0') }}
+                    <p class="text-lg font-semibold text-slate-900">Formie Sprig Starter</p>
+                </a>
+            </div>
+        </header>
+
+        <main class="mx-auto flex w-full max-w-6xl flex-col gap-6 p-6 md:p-8">
+            {{ sprig('_components/starters/sprig-demo', {
+                example: 'singlePage',
+            }, {
+                id: 'sprig-starter',
+            }) }}
+
+            <footer class="pt-2 text-center text-slate-300">
+                {{ ui.verbbLogo('mx-auto h-4 w-auto') }}
+            </footer>
+        </main>
+    </div>
+{% endblock %}

@@ -1,0 +1,400 @@
+@layer theme, base, components, utilities, formie-base, formie-theme-base, formie-theme;
+
+@import "tailwindcss";
+@import "prismjs/themes/prism.css";
+
+body {
+  @apply m-0 min-h-screen bg-[#eef0f4] text-slate-900 antialiased;
+}
+
+.demo-code {
+  background: transparent;
+}
+
+.demo-code code[class*="language-"],
+.demo-code pre[class*="language-"] {
+  background: transparent;
+  text-shadow: none;
+  margin: 0;
+  padding: 0;
+  font-family: ui-monospace, SFMono-Regular, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+/* Prism's unlayered `pre[class*="language-"]` overrides Tailwind utilities. Only `<code>`
+   should carry `language-*`; if `<pre>` has it, re-assert the code-panel layout. */
+pre.demo-code[class*="language-"] {
+  margin: 0;
+  padding: 1.5rem;
+  background: transparent;
+  text-shadow: none;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: #334155;
+  overflow: auto;
+  font-family: ui-monospace, SFMono-Regular, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.demo-code .token.comment,
+.demo-code .token.prolog,
+.demo-code .token.doctype,
+.demo-code .token.cdata {
+  color: #94a3b8;
+}
+
+.demo-code .token.property,
+.demo-code .token.tag,
+.demo-code .token.boolean,
+.demo-code .token.number,
+.demo-code .token.constant,
+.demo-code .token.symbol,
+.demo-code .token.deleted {
+  color: #2563eb;
+}
+
+.demo-code .token.selector,
+.demo-code .token.attr-name,
+.demo-code .token.string,
+.demo-code .token.char,
+.demo-code .token.builtin,
+.demo-code .token.inserted {
+  color: #059669;
+}
+
+.demo-code .token.operator,
+.demo-code .token.entity,
+.demo-code .token.url,
+.demo-code .language-css .token.string,
+.demo-code .style .token.string {
+  color: #475569;
+}
+
+.demo-code .token.atrule,
+.demo-code .token.attr-value,
+.demo-code .token.keyword {
+  color: #7c3aed;
+}
+
+.demo-code .token.function,
+.demo-code .token.class-name {
+  color: #0f766e;
+}
+
+.demo-code .token.regex,
+.demo-code .token.important,
+.demo-code .token.variable {
+  color: #ea580c;
+}
+
+.demo-preview[data-scenario="html-no-theme"] button,
+.demo-preview[data-scenario="html-no-theme"] input,
+.demo-preview[data-scenario="html-no-theme"] select,
+.demo-preview[data-scenario="html-no-theme"] optgroup,
+.demo-preview[data-scenario="html-no-theme"] textarea,
+.demo-preview[data-scenario="html-no-theme"] ::file-selector-button {
+  all: revert;
+}
+
+.demo-preview[data-scenario="html-no-theme"] button,
+.demo-preview[data-scenario="html-no-theme"] input,
+.demo-preview[data-scenario="html-no-theme"] select,
+.demo-preview[data-scenario="html-no-theme"] textarea {
+  font: revert;
+}
+
+.demo-preview[data-scenario="html-custom-styling"] .starter-field {
+  border-radius: 1rem;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+
+.demo-preview[data-scenario="html-custom-styling"] .starter-field[data-formie-field-type="email"] {
+  border: 1px solid #c4b5fd;
+  background: linear-gradient(180deg, #f5f3ff 0%, #ffffff 100%);
+  box-shadow: 0 10px 30px -22px rgba(124, 58, 237, 0.55);
+  padding: 1rem;
+}
+
+.demo-preview[data-scenario="html-custom-styling"] .starter-field[data-formie-field-type="email"] .starter-label {
+  color: #6d28d9;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+
+.demo-preview[data-scenario="html-custom-styling"] .starter-field[data-formie-field-type="email"] .starter-control input,
+.demo-preview[data-scenario="html-custom-styling"] .starter-field[data-formie-field-type="email"] .starter-control textarea,
+.demo-preview[data-scenario="html-custom-styling"] .starter-field[data-formie-field-type="email"] .starter-control select {
+  border-color: #a78bfa;
+  box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.35);
+}
+
+.starter-component-form [data-formie-page-hidden] {
+  display: none;
+}
+
+.starter-component-errors,
+.starter-component-successes {
+  margin-bottom: 1rem;
+}
+
+.starter-component-message {
+  border-radius: 1rem;
+  padding: 0.9rem 1rem;
+}
+
+.starter-component-message-error {
+  border: 1px solid #fecaca;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.starter-component-message-success {
+  border: 1px solid #bbf7d0;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.starter-component-form .formie-react-errors {
+  border: 1px solid #fecaca;
+  border-radius: 0.5rem;
+  background: linear-gradient(180deg, #fff1f2 0%, #fff7f7 100%);
+  color: #9f1239;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  box-shadow: 0 10px 25px -22px rgba(190, 24, 93, 0.45);
+}
+
+.starter-component-form .formie-react-errors ul {
+  margin: 0;
+}
+
+.starter-component-form .formie-react-errors li {
+  font-size: 0.85rem;
+  line-height: 1.4;
+}
+
+.starter-component-form .formie-react-error {
+  border: 1px solid #fecaca;
+  border-left-width: 4px;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, #fff1f2 0%, #fff7f7 100%);
+  color: #9f1239;
+  font-size: 1.05rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  padding: 1rem 1.1rem;
+  box-shadow: 0 10px 25px -22px rgba(190, 24, 93, 0.45);
+}
+
+.starter-component-field-error {
+  border-color: #fca5a5 !important;
+  box-shadow: 0 0 0 1px rgba(239, 68, 68, 0.18);
+}
+
+.starter-component-input-error {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 3px rgba(254, 202, 202, 0.9) !important;
+}
+
+.starter-component-field-errors {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.starter-component-field-error-item {
+  border-radius: 0.75rem;
+  background: #fff1f2;
+  color: #be123c;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  padding: 0.6rem 0.75rem;
+}
+
+.starter-component-card {
+  margin-bottom: 1.25rem;
+  display: grid;
+  gap: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 1rem;
+  background: rgb(248 250 252 / 0.7);
+  padding: 1rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.starter-component-label {
+  color: #0f172a;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.starter-component-help {
+  color: #475569;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.starter-component-control,
+.starter-component-injected-control input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]),
+.starter-component-injected-control textarea,
+.starter-component-injected-control select {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #0f172a;
+  padding: 0.65rem 0.85rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.starter-component-control:focus,
+.starter-component-injected-control input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):focus,
+.starter-component-injected-control textarea:focus,
+.starter-component-injected-control select:focus {
+  outline: none;
+  border-color: #a78bfa;
+  box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.35);
+}
+
+.starter-component-injected-control [data-formie-subfield-rows] {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.starter-component-injected-control [data-formie-subfield-row],
+.starter-component-injected-control [data-formie-nested-field-row] {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.starter-component-injected-control [data-formie-subfield-row]>[data-formie-field],
+.starter-component-injected-control [data-formie-nested-field-row]>[data-formie-field] {
+  min-width: 0;
+}
+
+.starter-component-name-grid,
+.starter-component-injected-control .formie-react-name-grid {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.starter-component-subfield,
+.starter-component-injected-control .formie-react-name-part {
+  display: grid;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.starter-component-subfield-label,
+.starter-component-injected-control .formie-react-name-part-label,
+.starter-component-injected-control [data-formie-field-label] {
+  display: inline-block;
+  color: #334155;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: none;
+}
+
+.starter-component-injected-control .formie-react-name-part input,
+.starter-component-injected-control .formie-react-name-part select {
+  width: 100%;
+  border-radius: 0.75rem;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #0f172a;
+  padding: 0.65rem 0.85rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+
+.starter-component-form .formie-page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.starter-component-form .formie-page-actions button {
+  border-radius: 0.85rem;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  color: #334155;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.2;
+  padding: 0.8rem 1.15rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.05);
+}
+
+.starter-component-form .formie-page-actions button[type="submit"] {
+  border-color: #8b5cf6;
+  background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+  color: #fff;
+  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.22);
+}
+
+@media (min-width: 768px) {
+
+  .starter-component-injected-control [data-formie-subfield-row],
+  .starter-component-injected-control [data-formie-nested-field-row] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .starter-component-name-grid,
+  .starter-component-injected-control .formie-react-name-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.starter-component-injected-control [data-formie-sr-only] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.starter-component-injected-control [data-formie-repeater-container] {
+  display: grid;
+  gap: 1rem;
+}
+
+.starter-component-injected-control [data-formie-add-button],
+.starter-component-injected-control [data-formie-signature-clear] {
+  margin-top: 0.9rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 0.75rem;
+  background: #fff;
+  color: #334155;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.6rem 0.9rem;
+}
+
+.starter-component-injected-control [data-formie-signature-canvas] {
+  display: block;
+  width: 100%;
+  min-height: 12rem;
+  border: 1px dashed #fda4af;
+  border-radius: 1rem;
+  background: linear-gradient(180deg, #fff1f2 0%, #fff 100%);
+}
+
+/* Match Formie theme body tokens on the HTML mount shell so wrapper nodes outside
+   `form.formie-form` do not inherit the preview card’s `text-slate-900` scale/color. */
+@layer formie-theme {
+  .demo-preview {
+    display: block;
+    width: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    font-weight: 400;
+    color: #334155;
+    background-color: #ffffff;
+  }
+}

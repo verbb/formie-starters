@@ -1,0 +1,4 @@
+services:
+  web:
+    volumes:
+      - ../../../formie-plugin-repo:/var/www/html/formie-plugin-repo

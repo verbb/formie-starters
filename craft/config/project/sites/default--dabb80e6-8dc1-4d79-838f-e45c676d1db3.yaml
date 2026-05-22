@@ -1,0 +1,8 @@
+baseUrl: $PRIMARY_SITE_URL
+handle: default
+hasUrls: true
+language: en
+name: 'Formie Starters'
+primary: true
+siteGroup: e46fecf3-996b-4205-b776-e11ebaa738d6 # Formie Starters
+sortOrder: 1

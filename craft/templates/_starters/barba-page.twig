@@ -1,0 +1,413 @@
+{% import '_starters/_macros.twig' as ui %}
+
+{% set pages = [
+    {
+        href: '/barba',
+        title: 'Single-page',
+        description: 'A simple contact-style form for comparing presentation options quickly.',
+        handle: 'singlePage',
+        namespace: 'single-page',
+    },
+    {
+        href: '/barba/multi-page',
+        title: 'Multi-page',
+        description: 'A guided multi-step form for checking navigation, continuity, and progress state.',
+        handle: 'multiPage',
+        namespace: 'multi-page',
+    },
+    {
+        href: '/barba/advanced',
+        title: 'Advanced',
+        description: 'A richer form intended for conditional logic, summaries, and heavier interactions.',
+        handle: 'advanced',
+        namespace: 'advanced',
+    },
+] %}
+
+<div class="min-h-screen">
+    <header class="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur">
+        <div class="mx-auto flex max-w-6xl items-center gap-3 px-6 py-3 shadow-[0_8px_24px_-18px_rgba(15,23,42,0.35)] md:px-8">
+            <a href="/" class="flex items-center gap-3">
+                {{ ui.formieLogo('h-6 w-6 shrink-0') }}
+                <p class="text-lg font-semibold text-slate-900">Formie Barba Starter</p>
+            </a>
+        </div>
+    </header>
+
+    <main class="mx-auto flex w-full max-w-6xl flex-col gap-6 p-6 md:p-8">
+        <div data-barba="wrapper" class="grid items-start gap-6 lg:grid-cols-[12rem_minmax(0,1fr)]">
+            <aside class="lg:sticky lg:top-24">
+                <p class="mb-4 px-3 text-[0.72rem] font-semibold tracking-[0.18em] text-slate-500 uppercase">Choose form</p>
+
+                <div class="space-y-1">
+                    {% for item in pages %}
+                        {% set isActive = item.handle == handle %}
+                        <a href="{{ item.href }}" class="block rounded-xl px-3 py-2 text-left text-sm transition {{ isActive ? 'bg-white font-medium text-slate-900 shadow-[0_10px_24px_-22px_rgba(15,23,42,0.45)]' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900' }}" data-app-nav>
+                            {{ item.title }}
+                        </a>
+                    {% endfor %}
+                </div>
+            </aside>
+
+            <div class="min-w-0">
+                <div data-barba-stage class="relative min-h-[28rem]">
+                    <div data-barba="container" data-barba-namespace="{{ namespace }}" data-page-handle="{{ handle }}" data-page-title="{{ title }}">
+                    <section class="starter-form-wrap">
+                        <div class="mb-5">
+                            <p class="text-[0.72rem] font-semibold tracking-[0.18em] text-violet-500 uppercase">Barba.js</p>
+                            <h2 class="mt-2 text-[clamp(1.45rem,2vw,2rem)] font-semibold leading-tight text-slate-900">{{ title }}</h2>
+                            <p class="starter-demo-copy mt-2">{{ description }}</p>
+                        </div>
+
+                        {{ craft.formie.renderForm(handle) }}
+                    </section>
+                </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="starter-form-wrap">
+            <div class="mb-4 flex items-start justify-between gap-4 max-[820px]:flex-col max-[820px]:items-stretch">
+                <div>
+                    <p class="text-[0.72rem] font-semibold tracking-[0.18em] text-violet-500 uppercase">Global events</p>
+                    <h3 class="mt-2 text-[1.25rem] font-semibold leading-tight text-slate-900">Event log</h3>
+                    <p class="starter-demo-copy mt-2">Raw Formie event activity captured while you move between Barba pages.</p>
+                </div>
+
+                <button type="button" id="clear-events" class="rounded-full border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
+                    Clear
+                </button>
+            </div>
+
+            <div id="event-log" class="grid gap-3"></div>
+        </section>
+
+        <footer class="pt-2 text-center text-slate-300">
+            {{ ui.verbbLogo('mx-auto h-4 w-auto') }}
+        </footer>
+    </main>
+
+    {% block barba_scripts %}
+        <script src="https://unpkg.com/@barba/core"></script>
+        <script>
+        (() => {
+            if (!window.barba || window.__formieCraftBarbaReady) {
+                return;
+            }
+
+            window.__formieCraftBarbaReady = true;
+            const activeClasses = ['bg-white', 'font-medium', 'text-slate-900', 'shadow-[0_10px_24px_-22px_rgba(15,23,42,0.45)]'];
+            const inactiveClasses = ['text-slate-600', 'hover:bg-slate-50', 'hover:text-slate-900'];
+            const observedFormieEvents = [
+                'formie:mount:after',
+                'formie:validator:ready',
+                'formie:validator:show-error',
+                'formie:page:navigate',
+                'formie:page:navigate:after',
+                'formie:page:navigate:error',
+                'formie:submit:before',
+                'formie:submit:after',
+                'formie:submit:final:before',
+                'formie:submit:final:after',
+                'formie:submit:result',
+                'formie:file-upload:uploaded',
+                'formie:refresh-tokens:after',
+                'formie:refresh-tokens:refreshed',
+                'formie:state:reset',
+            ];
+            const eventEntries = [];
+            const activeEventRecords = [];
+            let eventUiBound = false;
+
+            const normalizePath = (value) => {
+                const pathname = value.replace(/\/+$/, '');
+                return pathname || '/';
+            };
+
+            const escapeHtml = (value) => String(value)
+                .replaceAll('&', '&amp;')
+                .replaceAll('<', '&lt;')
+                .replaceAll('>', '&gt;')
+                .replaceAll('"', '&quot;');
+
+            const sanitizeDetail = (value) => {
+                if (value == null) {
+                    return value;
+                }
+
+                if (Array.isArray(value)) {
+                    return value.map((item) => sanitizeDetail(item));
+                }
+
+                if (typeof Element !== 'undefined' && value instanceof Element) {
+                    return `<${value.tagName.toLowerCase()}>`;
+                }
+
+                if (typeof value === 'object') {
+                    return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, sanitizeDetail(item)]));
+                }
+
+                return value;
+            };
+
+            const stringifyDetail = (value) => {
+                if (value == null) {
+                    return 'No payload';
+                }
+
+                try {
+                    return JSON.stringify(sanitizeDetail(value), null, 2);
+                } catch (error) {
+                    return String(value);
+                }
+            };
+
+            const summarizeDetail = (eventName, detail) => {
+                if (!detail || typeof detail !== 'object') {
+                    return 'No payload';
+                }
+
+                const record = detail;
+                const nested = record.data && typeof record.data === 'object' ? record.data : null;
+
+                if (eventName === 'formie:submit:result') {
+                    const ok = record.ok === true ? 'ok' : 'error';
+                    const code = typeof record.code === 'string' ? ` (${record.code})` : '';
+                    return `${ok}${code}`;
+                }
+
+                if (eventName === 'formie:file-upload:uploaded') {
+                    const assetIds = Array.isArray(nested?.assetIds) ? nested.assetIds.length : 0;
+                    return `${assetIds} uploaded asset${assetIds === 1 ? '' : 's'}`;
+                }
+
+                const keys = Object.keys(record);
+                return keys.length ? `Payload keys: ${keys.join(', ')}` : 'No payload';
+            };
+
+            const renderEventEntries = () => {
+                const mount = document.getElementById('event-log');
+
+                if (!mount) {
+                    return;
+                }
+
+                if (!eventEntries.length) {
+                    mount.innerHTML = '<p class="m-0 text-slate-500">Formie events will appear here as you navigate and interact with the current form.</p>';
+                    return;
+                }
+
+                mount.innerHTML = eventEntries.map((entry) => {
+                    const toneClass = entry.tone === 'warn'
+                        ? 'border-orange-200/70 bg-orange-50/90'
+                        : entry.tone === 'success'
+                            ? 'border-emerald-200/70 bg-emerald-50/90'
+                            : 'border-slate-200/60 bg-slate-50';
+
+                    return `
+                        <article class="rounded-2xl border px-4 py-3 ${toneClass}">
+                            <div class="mb-1.5 flex items-start justify-between gap-4 text-slate-900">
+                                <strong>${escapeHtml(entry.title)}</strong>
+                                <span class="text-sm text-slate-500">${escapeHtml(entry.time)}</span>
+                            </div>
+                            <p class="m-0 break-words whitespace-pre-wrap">${escapeHtml(entry.detail)}</p>
+                        </article>
+                    `;
+                }).join('');
+            };
+
+            const pushEvent = (title, detail, tone = 'neutral') => {
+                eventEntries.unshift({
+                    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+                    title,
+                    detail,
+                    tone,
+                    time: new Date().toLocaleTimeString(),
+                });
+
+                if (eventEntries.length > 24) {
+                    eventEntries.length = 24;
+                }
+
+                renderEventEntries();
+            };
+
+            const bindEventUi = () => {
+                if (eventUiBound) {
+                    return;
+                }
+
+                eventUiBound = true;
+                renderEventEntries();
+
+                document.getElementById('clear-events')?.addEventListener('click', () => {
+                    eventEntries.length = 0;
+                    renderEventEntries();
+                });
+            };
+
+            const syncNav = () => {
+                const currentPath = normalizePath(window.location.pathname);
+
+                document.querySelectorAll('[data-app-nav]').forEach((link) => {
+                    const linkPath = normalizePath(new URL(link.href, window.location.origin).pathname);
+                    const isActive = linkPath === currentPath;
+
+                    activeClasses.forEach((className) => {
+                        link.classList.toggle(className, isActive);
+                    });
+
+                    inactiveClasses.forEach((className) => {
+                        link.classList.toggle(className, !isActive);
+                    });
+
+                    link.setAttribute('aria-current', isActive ? 'page' : 'false');
+                });
+            };
+
+            const cleanupEvents = (scope) => {
+                for (let index = activeEventRecords.length - 1; index >= 0; index -= 1) {
+                    const record = activeEventRecords[index];
+
+                    if (!scope.contains(record.form)) {
+                        continue;
+                    }
+
+                    record.unbinds.forEach((unbind) => {
+                        unbind();
+                    });
+
+                    activeEventRecords.splice(index, 1);
+                }
+            };
+
+            const bindFormieEvents = (scope, pageHandle) => {
+                scope.querySelectorAll('form[data-fui-form]').forEach((form) => {
+                    const unbinds = [];
+
+                    observedFormieEvents.forEach((eventName) => {
+                        const listener = (event) => {
+                            const detail = event.detail;
+                            const tone = eventName.includes('error') ? 'warn' : 'neutral';
+                            const summary = `${pageHandle}: ${summarizeDetail(eventName, detail)}`;
+                            pushEvent(eventName, `${summary}\n\n${stringifyDetail(detail)}`, tone);
+                        };
+
+                        form.addEventListener(eventName, listener);
+                        unbinds.push(() => {
+                            form.removeEventListener(eventName, listener);
+                        });
+                    });
+
+                    activeEventRecords.push({ form, unbinds });
+                });
+            };
+
+            const getTransitionStage = (container) => {
+                const stage = container.parentElement;
+                return stage instanceof HTMLElement ? stage : null;
+            };
+
+            const lockStage = (stage, minHeight) => {
+                stage.style.position = 'relative';
+                stage.style.overflow = 'clip';
+                stage.style.minHeight = `${Math.max(1, Math.round(minHeight))}px`;
+            };
+
+            const unlockStage = (stage) => {
+                stage.style.position = '';
+                stage.style.overflow = '';
+                stage.style.minHeight = '';
+            };
+
+            const pinContainer = (container) => {
+                container.style.position = 'absolute';
+                container.style.inset = '0';
+                container.style.width = '100%';
+            };
+
+            const unpinContainer = (container) => {
+                container.style.position = '';
+                container.style.inset = '';
+                container.style.width = '';
+            };
+
+            const animate = (container, direction) => {
+                if (!container || typeof container.animate !== 'function') {
+                    return Promise.resolve();
+                }
+
+                const keyframes = direction === 'in'
+                    ? [
+                        { opacity: 0, transform: 'translateY(8px)' },
+                        { opacity: 1, transform: 'translateY(0)' },
+                    ]
+                    : [
+                        { opacity: 1, transform: 'translateY(0)' },
+                        { opacity: 0, transform: 'translateY(-6px)' },
+                    ];
+
+                return container.animate(keyframes, {
+                    duration: 220,
+                    easing: 'cubic-bezier(0.22, 1, 0.36, 1)',
+                    fill: 'both',
+                }).finished.catch(() => undefined);
+            };
+
+            bindEventUi();
+            bindFormieEvents(document, document.querySelector('[data-barba="container"]')?.dataset.pageHandle || '{{ handle }}');
+            syncNav();
+
+            window.barba.init({
+                preventRunning: true,
+                transitions: [
+                    {
+                        name: 'craft-formie-barba',
+                        async leave({ current }) {
+                            const stage = getTransitionStage(current.container);
+
+                            if (stage) {
+                                lockStage(stage, current.container.offsetHeight);
+                            }
+
+                            cleanupEvents(current.container);
+                            pinContainer(current.container);
+                            await animate(current.container, 'out');
+                        },
+                        async enter({ next }) {
+                            const stage = getTransitionStage(next.container);
+
+                            if (stage) {
+                                const nextHeight = next.container.offsetHeight || next.container.scrollHeight;
+                                lockStage(stage, Math.max(stage.offsetHeight, nextHeight));
+                            }
+
+                            pinContainer(next.container);
+                            next.container.style.opacity = '0';
+                            bindFormieEvents(next.container, next.container.dataset.pageHandle || '{{ handle }}');
+
+                            if (stage) {
+                                lockStage(stage, Math.max(stage.offsetHeight, next.container.scrollHeight));
+                            }
+
+                            await animate(next.container, 'in');
+                        },
+                        after({ next }) {
+                            const stage = getTransitionStage(next.container);
+
+                            next.container.style.opacity = '';
+                            unpinContainer(next.container);
+
+                            if (stage) {
+                                unlockStage(stage);
+                            }
+
+                            syncNav();
+                        },
+                    },
+                ],
+            });
+        })();
+        </script>
+    {% endblock %}
+</div>

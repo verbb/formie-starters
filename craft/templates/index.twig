@@ -1,0 +1,62 @@
+{% extends '_starters/layout' %}
+{% import '_starters/_macros.twig' as ui %}
+
+{% set pageTitle = 'Formie Craft Starters' %}
+{% set starters = [
+    {
+        href: '/sprig',
+        title: 'Sprig',
+        description: 'Reactive Twig components that swap the current Formie demo without leaving the page.',
+        logo: 'https://pluginicons.craft-cdn.com/sprig.svg',
+        logoClass: 'h-11 w-11',
+    },
+    {
+        href: '/datastar',
+        title: 'Datastar',
+        description: 'Signal-driven server patches with the form front and center in a Craft-rendered shell.',
+        logo: 'https://pluginicons.craft-cdn.com/datastarwytvhmmoxncioslyuhcmobcisiamkpwbwukq.svg',
+        logoClass: 'h-11 w-11',
+    },
+    {
+        href: '/barba',
+        title: 'Barba.js',
+        description: 'A fully Craft-hosted multi-page demo with browser-managed page transitions and Formie re-init.',
+        logoSymbol: 'barba-b',
+        logoClass: 'h-11 w-11',
+    },
+] %}
+
+{% block page %}
+    <div class="flex min-h-screen flex-col items-center justify-center px-6 py-10">
+        <div class="mb-8 flex justify-center">
+            {{ ui.formieLogo('h-10 w-10') }}
+        </div>
+
+        <div class="grid w-full max-w-5xl gap-4 md:grid-cols-3">
+            {% for starter in starters %}
+                <article class="rounded-[30px] border border-slate-200/90 bg-white p-6 shadow-[0_18px_40px_-32px_rgba(15,23,42,0.22)]">
+                    <div class="mb-5 flex items-start justify-between gap-4">
+                        {% if starter.logoSymbol is defined %}
+                            <svg viewBox="0 0 32 32" aria-hidden="true" class="{{ starter.logoClass }}">
+                                <use xlink:href="#{{ starter.logoSymbol }}"></use>
+                            </svg>
+                        {% else %}
+                            <img src="{{ starter.logo }}" alt="{{ starter.title }} logo" class="{{ starter.logoClass }}">
+                        {% endif %}
+                    </div>
+
+                    <h2 class="text-[1.75rem] font-semibold leading-tight text-slate-900">{{ starter.title }}</h2>
+                    <p class="mt-4 text-[0.95rem] leading-7 text-slate-500">{{ starter.description }}</p>
+
+                    <div class="mt-8">
+                        <a href="{{ starter.href }}" class="starter-link-button">Show demo</a>
+                    </div>
+                </article>
+            {% endfor %}
+        </div>
+
+        <div class="mt-10 text-slate-300">
+            {{ ui.verbbLogo('h-5 w-auto') }}
+        </div>
+    </div>
+{% endblock %}

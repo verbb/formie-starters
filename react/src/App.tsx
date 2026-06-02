@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { FormieLogo, VerbbLogo } from './components/Branding';
 import { GraphqlRoute } from './routes/GraphqlRoute';
 import { RestRoute } from './routes/RestRoute';
+import { stripAppBasePath, toAppHref } from './lib/routing';
 
 type ModeId = 'server-rendered' | 'client-rendered';
 type TransportId = 'rest' | 'graphql';
@@ -51,7 +52,7 @@ function readBrowserLocation(): BrowserLocationState {
   }
 
   return {
-    pathname: window.location.pathname || '/rest',
+    pathname: stripAppBasePath(window.location.pathname || '/server-rendered/rest'),
     search: window.location.search,
   };
 }
@@ -95,7 +96,7 @@ function App() {
 
   const navigate = (url: string, options?: { replace?: boolean }) => {
     const method = options?.replace ? 'replaceState' : 'pushState';
-    window.history[method]({}, '', url);
+    window.history[method]({}, '', toAppHref(url));
     setLocation(readBrowserLocation());
   };
 
@@ -116,7 +117,7 @@ function App() {
       <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3 shadow-[0_8px_24px_-18px_rgba(15,23,42,0.35)] md:px-8">
           <a
-            href="/"
+            href={toAppHref('/server-rendered/rest?example=single-page&scenario=html-default-theme')}
             onClick={(event) => {
               event.preventDefault();
               navigate('/server-rendered/rest?example=single-page&scenario=html-default-theme');
@@ -154,7 +155,7 @@ function App() {
                       return (
                         <a
                           key={`${item.mode}:${item.transport}`}
-                          href={item.href}
+                          href={toAppHref(item.href)}
                           onClick={(event) => {
                             event.preventDefault();
                             navigate(item.href);
@@ -182,6 +183,7 @@ function App() {
               mode={activeLocation.mode}
               search={location.search}
               navigate={navigate}
+              toAppHref={toAppHref}
             />
           ) : (
             <GraphqlRoute
@@ -189,6 +191,7 @@ function App() {
               mode={activeLocation.mode}
               search={location.search}
               navigate={navigate}
+              toAppHref={toAppHref}
             />
           )}
 

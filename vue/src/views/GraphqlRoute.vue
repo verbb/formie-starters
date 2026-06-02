@@ -25,6 +25,7 @@ import {
   requestGraphqlDefinitionEnvelopeResponse,
   requestGraphqlHtmlPayloadResponse,
 } from '../lib/server-payloads';
+import { toAppHref } from '../lib/routing';
 
 const props = defineProps<{
   search: string;
@@ -523,7 +524,7 @@ function navigate(url: string, options?: { replace?: boolean }) {
         <a
           v-for="item in DEMO_EXAMPLES"
           :key="item.id"
-          :href="buildGraphqlUrl('server-rendered', item.id, selectedDemo.id, selectedScenario.id)"
+          :href="toAppHref(buildGraphqlUrl('server-rendered', item.id, selectedDemo.id, selectedScenario.id))"
           class="rounded border p-4 transition"
           :class="item.id === selectedExample.id ? 'border-violet-300 bg-violet-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'"
           @click.prevent="navigate(buildGraphqlUrl('server-rendered', item.id, selectedDemo.id, selectedScenario.id))"
@@ -547,7 +548,7 @@ function navigate(url: string, options?: { replace?: boolean }) {
           <a
             v-for="item in REST_SCENARIOS.filter((s) => s.mode === 'server-rendered')"
             :key="item.id"
-            :href="buildGraphqlUrl('server-rendered', selectedExample.id, selectedDemo.id, item.id)"
+            :href="toAppHref(buildGraphqlUrl('server-rendered', selectedExample.id, selectedDemo.id, item.id))"
             class="rounded border p-4 transition"
             :class="item.id === selectedScenario.id ? 'border-violet-300 bg-violet-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'"
             @click.prevent="navigate(buildGraphqlUrl('server-rendered', selectedExample.id, selectedDemo.id, item.id))"

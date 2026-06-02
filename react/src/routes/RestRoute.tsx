@@ -21,6 +21,7 @@ type RestRouteProps = {
   mode: RestMode;
   search: string;
   navigate: (url: string, options?: { replace?: boolean }) => void;
+  toAppHref: (url: string) => string;
 };
 
 type RestMode = 'server-rendered' | 'client-rendered';
@@ -203,7 +204,7 @@ function buildRestByoComponentSnippet(example: DemoExample): string {
   ].join('\n');
 }
 
-export function RestRoute({ mode, search, navigate }: RestRouteProps) {
+export function RestRoute({ mode, search, navigate, toAppHref }: RestRouteProps) {
   const [activePanel, setActivePanel] = useState<RestPanelId>('preview');
   const [activeRequestMode, setActiveRequestMode] = useState<RequestCodeMode>('formie');
   const [eventLog, setEventLog] = useState<EventLogEntry[]>([]);
@@ -558,7 +559,7 @@ export function RestRoute({ mode, search, navigate }: RestRouteProps) {
                   return (
                     <a
                       key={item.id}
-                      href={buildRestUrl(mode, item.id, selectedScenario.id)}
+                      href={toAppHref(buildRestUrl(mode, item.id, selectedScenario.id))}
                       onClick={(event) => {
                         event.preventDefault();
                         navigate(buildRestUrl(mode, item.id, selectedScenario.id));
@@ -591,7 +592,7 @@ export function RestRoute({ mode, search, navigate }: RestRouteProps) {
                     return (
                       <a
                         key={item.id}
-                        href={href}
+                        href={toAppHref(href)}
                         onClick={(event) => {
                           event.preventDefault();
                           navigate(href);

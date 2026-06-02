@@ -16,6 +16,7 @@ import {
   type RestScenario,
 } from '../lib/demo-data';
 import { createEventEntry, OBSERVED_FORMIE_EVENTS, type EventLogEntry } from '../lib/event-log';
+import { toAppHref } from '../lib/routing';
 import { requestRestDefinitionEnvelope, requestRestHtmlPayload } from '../lib/server-payloads';
 
 const props = defineProps<{
@@ -402,7 +403,7 @@ function navigate(url: string, options?: { replace?: boolean }) {
         <a
           v-for="item in DEMO_EXAMPLES"
           :key="item.id"
-          :href="buildRestUrl('server-rendered', item.id, selectedScenario.id)"
+          :href="toAppHref(buildRestUrl('server-rendered', item.id, selectedScenario.id))"
           class="rounded border p-4 transition"
           :class="item.id === selectedExample.id ? 'border-violet-300 bg-violet-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'"
           @click.prevent="navigate(buildRestUrl('server-rendered', item.id, selectedScenario.id))"
@@ -426,7 +427,7 @@ function navigate(url: string, options?: { replace?: boolean }) {
           <a
             v-for="item in REST_SCENARIOS.filter((s) => s.mode === 'server-rendered')"
             :key="item.id"
-            :href="buildRestUrl('server-rendered', selectedExample.id, item.id)"
+            :href="toAppHref(buildRestUrl('server-rendered', selectedExample.id, item.id))"
             class="rounded border p-4 transition"
             :class="item.id === selectedScenario.id ? 'border-violet-300 bg-violet-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'"
             @click.prevent="navigate(buildRestUrl('server-rendered', selectedExample.id, item.id))"

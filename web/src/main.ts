@@ -39,6 +39,7 @@ import {
   buildWebAppFetchHtmlSnippet,
   buildWebMountSnippet,
 } from './snippets';
+import { stripAppBasePath, toAppHref } from './routing';
 
 type ModeId = 'server-rendered' | 'client-rendered';
 type TransportId = 'rest' | 'graphql';
@@ -82,7 +83,7 @@ let lastPreviewShellKey = '';
 
 function readBrowserLocation(): { pathname: string; search: string } {
   return {
-    pathname: window.location.pathname || '/server-rendered/rest',
+    pathname: stripAppBasePath(window.location.pathname || '/server-rendered/rest'),
     search: window.location.search,
   };
 }
@@ -458,7 +459,7 @@ function buildNavHtml(ctx: RouteContext): string {
           ${items.map((item) => {
             const isActive = item.mode === route.mode && item.transport === route.transport;
             return `
-              <a href="${escapeAttr(item.href)}" data-nav class="block rounded-lg px-3 py-2 text-sm transition ${isActive ? 'bg-white font-medium text-slate-900' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}">${escapeHtml(item.title)}</a>
+              <a href="${escapeAttr(toAppHref(item.href))}" data-nav class="block rounded-lg px-3 py-2 text-sm transition ${isActive ? 'bg-white font-medium text-slate-900' : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'}">${escapeHtml(item.title)}</a>
             `;
           }).join('')}
         </div>
@@ -480,7 +481,7 @@ function buildRouteOutletInnerHtml(ctx: RouteContext): string {
             const isActive = item.id === selectedExample.id;
             const href = buildRestUrl(route.mode, item.id, selectedScenario.id);
             return `
-              <a href="${escapeAttr(href)}" data-internal class="rounded border p-4 transition ${isActive ? 'border-violet-300 bg-violet-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'}">
+              <a href="${escapeAttr(toAppHref(href))}" data-internal class="rounded border p-4 transition ${isActive ? 'border-violet-300 bg-violet-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'}">
                 <p class="text-sm font-semibold text-slate-900">${escapeHtml(item.title)}</p>
                 <p class="mt-1 text-xs text-slate-600">${escapeHtml(item.summary)}</p>
               </a>
@@ -497,7 +498,7 @@ function buildRouteOutletInnerHtml(ctx: RouteContext): string {
             const href = buildRestUrl(route.mode, selectedExample.id, item.id);
             const isActive = item.id === selectedScenario.id;
             return `
-              <a href="${escapeAttr(href)}" data-internal class="rounded border p-4 transition ${isActive ? 'border-violet-300 bg-violet-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'}">
+              <a href="${escapeAttr(toAppHref(href))}" data-internal class="rounded border p-4 transition ${isActive ? 'border-violet-300 bg-violet-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'}">
                 <p class="text-sm font-semibold text-slate-900">${escapeHtml(item.title)}</p>
                 <p class="mt-1 text-xs text-slate-600">${escapeHtml(item.summary)}</p>
                 ${item.description ? `<p class="mt-2 text-xs text-violet-600">${escapeHtml(item.description)}</p>` : ''}
@@ -533,7 +534,7 @@ function buildRouteOutletInnerHtml(ctx: RouteContext): string {
             const isActive = item.id === selectedExample.id;
             const href = buildGraphqlUrl(route.mode, item.id, selectedDemo.id, selectedScenario.id);
             return `
-              <a href="${escapeAttr(href)}" data-internal class="rounded border p-4 transition ${isActive ? 'border-violet-300 bg-violet-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'}">
+              <a href="${escapeAttr(toAppHref(href))}" data-internal class="rounded border p-4 transition ${isActive ? 'border-violet-300 bg-violet-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'}">
                 <p class="text-sm font-semibold text-slate-900">${escapeHtml(item.title)}</p>
                 <p class="mt-1 text-xs text-slate-600">${escapeHtml(item.summary)}</p>
               </a>
@@ -550,7 +551,7 @@ function buildRouteOutletInnerHtml(ctx: RouteContext): string {
             const href = buildGraphqlUrl(route.mode, selectedExample.id, selectedDemo.id, item.id);
             const isActive = item.id === selectedScenario.id;
             return `
-              <a href="${escapeAttr(href)}" data-internal class="rounded border p-4 transition ${isActive ? 'border-violet-300 bg-violet-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'}">
+              <a href="${escapeAttr(toAppHref(href))}" data-internal class="rounded border p-4 transition ${isActive ? 'border-violet-300 bg-violet-50' : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50'}">
                 <p class="text-sm font-semibold text-slate-900">${escapeHtml(item.title)}</p>
                 <p class="mt-1 text-xs text-slate-600">${escapeHtml(item.summary)}</p>
                 ${item.description ? `<p class="mt-2 text-xs text-violet-600">${escapeHtml(item.description)}</p>` : ''}
@@ -601,7 +602,7 @@ function renderApp(): void {
     <div data-app-shell>
     <header class="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur">
       <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3 shadow-[0_8px_24px_-18px_rgba(15,23,42,0.35)] md:px-8">
-        <a href="/server-rendered/rest?example=single-page&scenario=html-default-theme" data-nav class="flex items-center gap-3">
+        <a href="${escapeAttr(toAppHref('/server-rendered/rest?example=single-page&scenario=html-default-theme'))}" data-nav class="flex items-center gap-3">
           <div class="size-6 shrink-0">${FORMIE_LOGO}</div>
           <div><p class="text-lg font-semibold text-slate-900">Formie Web Components Starter</p></div>
         </a>
@@ -775,7 +776,9 @@ function attachDelegatedListenersOnce(): void {
 }
 
 function navigate(href: string): void {
-  window.history.pushState({}, '', href);
+  const parsed = new URL(href || '/server-rendered/rest', window.location.origin);
+  const appUrl = `${stripAppBasePath(parsed.pathname)}${parsed.search}${parsed.hash}`;
+  window.history.pushState({}, '', toAppHref(appUrl));
   activePanel = 'preview';
   activeRequestMode = 'formie';
   eventLog = [];
@@ -846,7 +849,7 @@ async function mountRoutePreview(ctx: RouteContext): Promise<void> {
 
 function ensureDefaultPath(): void {
   if (!normalizeLocation(readBrowserLocation().pathname)) {
-    window.history.replaceState({}, '', '/server-rendered/rest?example=single-page&scenario=html-default-theme');
+    window.history.replaceState({}, '', toAppHref('/server-rendered/rest?example=single-page&scenario=html-default-theme'));
   }
 }
 

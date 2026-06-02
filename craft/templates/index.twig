@@ -24,6 +24,27 @@
         logoSymbol: 'barba-b',
         logoClass: 'h-11 w-11',
     },
+    {
+        href: '/react',
+        title: 'React',
+        description: 'A headless React starter covering REST and GraphQL in HTML and component rendering modes.',
+        logoText: 'R',
+        logoClass: 'h-11 w-11',
+    },
+    {
+        href: '/vue',
+        title: 'Vue',
+        description: 'A Vue starter with the same public transport and rendering stories as the React app.',
+        logoText: 'V',
+        logoClass: 'h-11 w-11',
+    },
+    {
+        href: '/web',
+        title: 'Web Components',
+        description: 'A vanilla starter for formie-form and formie-core-form without a framework shell.',
+        logoText: 'WC',
+        logoClass: 'h-11 w-11',
+    },
 ] %}
 
 {% block page %}
@@ -40,6 +61,10 @@
                             <svg viewBox="0 0 32 32" aria-hidden="true" class="{{ starter.logoClass }}">
                                 <use xlink:href="#{{ starter.logoSymbol }}"></use>
                             </svg>
+                        {% elseif starter.logoText is defined %}
+                            <div class="{{ starter.logoClass }} starter-platform-mark bg-slate-900">
+                                {{ starter.logoText }}
+                            </div>
                         {% else %}
                             <img src="{{ starter.logo }}" alt="{{ starter.title }} logo" class="{{ starter.logoClass }}">
                         {% endif %}

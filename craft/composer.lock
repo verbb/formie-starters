@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9bbd393bf3b2fe07bd199c9bb1a41a82",
+    "content-hash": "4543c7ee3e3ba72dac76eae1937aa27b",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -9074,16 +9074,16 @@
         },
         {
             "name": "verbb/formie",
-            "version": "4.0.0-beta.1",
+            "version": "dev-beta",
             "source": {
                 "type": "git",
                 "url": "https://github.com/verbb/formie.git",
-                "reference": "1a6ba7eed46f650d8cf8020c67e5fa103e8c5479"
+                "reference": "786069d2273ce4de5cf04380f81654d88b952e57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/verbb/formie/zipball/1a6ba7eed46f650d8cf8020c67e5fa103e8c5479",
-                "reference": "1a6ba7eed46f650d8cf8020c67e5fa103e8c5479",
+                "url": "https://api.github.com/repos/verbb/formie/zipball/786069d2273ce4de5cf04380f81654d88b952e57",
+                "reference": "786069d2273ce4de5cf04380f81654d88b952e57",
                 "shasum": ""
             },
             "require": {
@@ -9156,7 +9156,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-06-02T05:19:28+00:00"
+            "time": "2026-06-02T11:01:04+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
@@ -10617,11 +10617,19 @@
             "time": "2025-02-13T21:05:12+00:00"
         }
     ],
-    "aliases": [],
+    "aliases": [
+        {
+            "package": "verbb/formie",
+            "version": "dev-beta",
+            "alias": "4.0.0-beta.1",
+            "alias_normalized": "4.0.0.0-beta1"
+        }
+    ],
     "minimum-stability": "dev",
     "stability-flags": {
         "putyourlightson/craft-datastar": 5,
-        "putyourlightson/craft-sprig": 20
+        "putyourlightson/craft-sprig": 20,
+        "verbb/formie": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,

@@ -27,31 +27,63 @@ If you move one of these starters toward a more app-owned integration, keep that
 
 ## Setup
 
-1. Start the local Craft site:
+The starter includes a committed seed database so local installs match the hosted demos.
+
+1. Install the local seed:
 
 ```bash
-ddev start
+scripts/install-local-seed.sh
 ```
 
-2. Install PHP dependencies if needed:
-
-```bash
-ddev composer install
-```
-
-3. Apply project config and ensure plugins are installed:
-
-```bash
-ddev craft project-config/apply
-ddev craft plugin/install sprig
-ddev craft plugin/install datastar
-```
-
-4. Open the site:
+2. Open the site:
 
 ```text
 https://craft.ddev.site:8443/
 ```
+
+3. Log in to the control panel when needed:
+
+```text
+https://craft.ddev.site:8443/admin
+Username: admin
+Password: password
+```
+
+If you prefer to run the steps manually:
+
+```bash
+ddev start
+ddev composer install
+ddev import-db --file=seeds/formie-starters.sql.gz
+ddev craft up --interactive=0
+ddev craft project-config/apply --interactive=0
+ddev craft clear-caches/all
+```
+
+## Seed Data
+
+The canonical seed files are:
+
+```text
+seeds/formie-starters.sql.gz
+```
+
+The SQL seed creates an exact local copy of the hosted starter, including Craft, plugins, project config state, and the demo Formie forms.
+
+Keep the seed safe for public use:
+
+- `admin` / `password` is intentional for local clones only
+- do not add real submissions, sessions, queue jobs, tokens, or private credentials
+- do not commit production-only database dumps
+- do not commit ad-hoc `*pre-reset*.sql.gz` backups
+
+## Hosted Reset
+
+The hosted starter should use the same public seed, then immediately harden the admin password with a production-only value stored outside git.
+
+Keep the nightly reset script in Forge or private operations notes rather than in this public starter repo. The reset should import `seeds/formie-starters.sql.gz`, run Craft updates, apply project config, set the private admin password, and clear caches.
+
+Run the reset nightly so visitors can make real demo submissions without the hosted database accumulating long-lived test data or abuse. Restrict production control-panel access separately with Forge/Nginx basic auth, an IP allowlist, or another server-level control.
 
 ## What To Validate
 

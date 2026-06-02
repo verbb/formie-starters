@@ -19,7 +19,7 @@ plugins:
     edition: standard
     enabled: true
     licenseKey: RQQH7631BOOKHSEA4T2UA2UH
-    schemaVersion: 4.0.8
+    schemaVersion: 4.0.9
   sprig:
     edition: standard
     enabled: true

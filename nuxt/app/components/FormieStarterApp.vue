@@ -49,6 +49,10 @@ const activeLocation = computed(() => {
 function goHome() {
   void router.push(NAV_ITEMS[0].to);
 }
+
+const homeHref = computed(() => {
+  return router.resolve(NAV_ITEMS[0].to).href;
+});
 </script>
 
 <template>
@@ -56,7 +60,7 @@ function goHome() {
     <header class="sticky top-0 z-30 border-b border-slate-200/80 bg-white/95 backdrop-blur">
       <div class="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3 shadow-[0_8px_24px_-18px_rgba(15,23,42,0.35)] md:px-8">
         <a
-          href="/"
+          :href="homeHref"
           class="flex items-center gap-3"
           @click.prevent="goHome"
         >
@@ -86,7 +90,7 @@ function goHome() {
               <a
                 v-for="item in NAV_ITEMS.filter((i) => i.mode === sectionMode)"
                 :key="`${item.mode}:${item.transport}`"
-                href="#"
+                :href="router.resolve(item.to).href"
                 class="block rounded-lg px-3 py-2 text-sm transition"
                 :class="item.mode === activeLocation.mode && item.transport === activeLocation.transport
                   ? 'bg-white font-medium text-slate-900'

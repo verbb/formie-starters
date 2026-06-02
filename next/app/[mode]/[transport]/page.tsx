@@ -5,37 +5,23 @@ type StarterRoutePageProps = {
     mode: string;
     transport: string;
   }>;
-  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
-function toSearchString(params: Record<string, string | string[] | undefined>): string {
-  const search = new URLSearchParams();
-
-  Object.entries(params).forEach(([key, value]) => {
-    if (typeof value === "string") {
-      search.set(key, value);
-      return;
-    }
-
-    if (Array.isArray(value)) {
-      value.forEach((entry) => {
-        search.append(key, entry);
-      });
-    }
-  });
-
-  const result = search.toString();
-  return result ? `?${result}` : "";
+export function generateStaticParams() {
+  return [
+    { mode: 'server-rendered', transport: 'rest' },
+    { mode: 'server-rendered', transport: 'graphql' },
+    { mode: 'client-rendered', transport: 'rest' },
+    { mode: 'client-rendered', transport: 'graphql' },
+  ];
 }
 
-export default async function StarterRoutePage({ params, searchParams }: StarterRoutePageProps) {
+export default async function StarterRoutePage({ params }: StarterRoutePageProps) {
   const resolvedParams = await params;
-  const resolvedSearchParams = searchParams ? await searchParams : {};
 
   return (
     <StarterApp
       initialPathname={`/${resolvedParams.mode}/${resolvedParams.transport}`}
-      initialSearch={toSearchString(resolvedSearchParams)}
     />
   );
 }

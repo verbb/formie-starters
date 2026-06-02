@@ -30,6 +30,7 @@ type GraphqlRouteProps = {
   mode: 'server-rendered' | 'client-rendered';
   search: string;
   navigate: (url: string, options?: { replace?: boolean }) => void;
+  toAppHref: (url: string) => string;
 };
 
 type GraphqlPanelId = 'preview' | 'response' | 'code' | 'events';
@@ -350,7 +351,7 @@ function buildCodeExample(example: DemoExample, demo: GraphqlDemo, scenario: Res
   };
 }
 
-export function GraphqlRoute({ mode, search, navigate }: GraphqlRouteProps) {
+export function GraphqlRoute({ mode, search, navigate, toAppHref }: GraphqlRouteProps) {
   const [activePanel, setActivePanel] = useState<GraphqlPanelId>('preview');
   const [activeRequestMode, setActiveRequestMode] = useState<RequestCodeMode>('formie');
   const [eventLog, setEventLog] = useState<EventLogEntry[]>([]);
@@ -718,7 +719,7 @@ export function GraphqlRoute({ mode, search, navigate }: GraphqlRouteProps) {
                   return (
                     <a
                       key={item.id}
-                      href={href}
+                      href={toAppHref(href)}
                       onClick={(event) => {
                         event.preventDefault();
                         navigate(href);
@@ -751,7 +752,7 @@ export function GraphqlRoute({ mode, search, navigate }: GraphqlRouteProps) {
                     return (
                       <a
                         key={item.id}
-                        href={href}
+                        href={toAppHref(href)}
                         onClick={(event) => {
                           event.preventDefault();
                           navigate(href);

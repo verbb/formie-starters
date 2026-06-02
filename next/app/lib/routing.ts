@@ -1,0 +1,38 @@
+function normalizeBasePath(basePath: string | undefined): string {
+  if (!basePath || basePath === '/') {
+    return '';
+  }
+
+  return basePath.replace(/\/+$/, '');
+}
+
+export const APP_BASE_PATH = normalizeBasePath(process.env.NEXT_PUBLIC_BASE_PATH);
+
+export function stripAppBasePath(pathname: string): string {
+  const normalizedPathname = pathname || '/';
+
+  if (!APP_BASE_PATH) {
+    return normalizedPathname;
+  }
+
+  if (normalizedPathname === APP_BASE_PATH) {
+    return '/';
+  }
+
+  if (normalizedPathname.startsWith(`${APP_BASE_PATH}/`)) {
+    return normalizedPathname.slice(APP_BASE_PATH.length) || '/';
+  }
+
+  return normalizedPathname;
+}
+
+export function toAppHref(url: string): string {
+  const [pathWithQuery, hash = ''] = url.split('#', 2);
+  const [path = '/', query = ''] = pathWithQuery.split('?', 2);
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const prefixedPath = `${APP_BASE_PATH}${normalizedPath}` || '/';
+  const queryString = query ? `?${query}` : '';
+  const hashString = hash ? `#${hash}` : '';
+
+  return `${prefixedPath}${queryString}${hashString}`;
+}

@@ -5,7 +5,7 @@
     "craftcms/cms": "^5.9.0",
     "putyourlightson/craft-datastar": "^1.0@RC",
     "putyourlightson/craft-sprig": "dev-develop",
-    "verbb/formie-react": "@dev",
+    "verbb/formie": "4.0.0-beta.1",
     "vlucas/phpdotenv": "^5.4.0"
   },
   "require-dev": {
@@ -24,14 +24,5 @@
     "post-root-package-install": [
       "@php -r \"file_exists('.env') || copy('.env.example.dev', '.env');\""
     ]
-  },
-  "repositories": [
-    {
-      "type": "path",
-      "url": "/var/www/html/formie-plugin-repo",
-      "options": {
-        "symlink": true
-      }
-    }
-  ]
+  }
 }

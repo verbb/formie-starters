@@ -8,7 +8,7 @@ import "prismjs/components/prism-graphql";
 
 export type HighlightLanguage = "tsx" | "typescript" | "graphql" | "json";
 
-const LANGUAGE_MAP: Record<HighlightLanguage, keyof typeof Prism.languages> = {
+const LANGUAGE_MAP: Record<HighlightLanguage, string> = {
   graphql: "graphql",
   json: "javascript",
   tsx: "tsx",
@@ -16,5 +16,12 @@ const LANGUAGE_MAP: Record<HighlightLanguage, keyof typeof Prism.languages> = {
 };
 
 export function highlightCode(code: string, language: HighlightLanguage): string {
-  return Prism.highlight(code, Prism.languages[LANGUAGE_MAP[language]], language);
+  const prismLanguage = LANGUAGE_MAP[language];
+  const grammar = Prism.languages[prismLanguage] || Prism.languages.typescript || Prism.languages.javascript;
+
+  if (!grammar) {
+    return code;
+  }
+
+  return Prism.highlight(code, grammar, prismLanguage);
 }

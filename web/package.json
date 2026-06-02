@@ -9,10 +9,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@verbb/formie-core": "1.0.0",
     "@friendlycaptcha/sdk": "^1.0.0",
     "@placekit/autocomplete-js": "^2.2.1",
     "@verbb/formie-browser": "1.0.0",
+    "@verbb/formie-core": "1.0.0",
     "@verbb/formie-web-components": "1.0.0",
     "expression-language": "^2.5.4",
     "flatpickr": "^4.6.13",
@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.2.4",
+    "@types/prismjs": "^1.26.6",
     "tailwindcss": "^4.2.4",
     "typescript": "~6.0.3",
     "vite": "^8.0.10"

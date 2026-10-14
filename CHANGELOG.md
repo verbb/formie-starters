@@ -17,6 +17,7 @@
 
 ### Fixed
 
+- Fixed Forge’s Linux production installs omitting the native bindings required to build the Next.js and Nuxt starters.
 - Fixed client-rendered examples failing to render fields from the current Formie response metadata.
 - Fixed Vue component examples reporting invalid required error-summary props.
 - Fixed hosted Next.js navigation and direct frontend route deployment support.

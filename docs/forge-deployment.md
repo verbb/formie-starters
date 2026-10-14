@@ -128,7 +128,7 @@ location ^~ /next/ {
 }
 
 location ^~ /nuxt/ {
-    try_files $uri $uri/ /nuxt/404.html;
+    try_files $uri/index.html $uri /nuxt/404.html;
 }
 ```
 

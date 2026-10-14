@@ -9798,12 +9798,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/verbb/formie.git",
-                "reference": "f040e8cb9cc9c86a1f6e599a60535cf79719e2eb"
+                "reference": "2ca538a56bc22fa43a73bc5557784b52b25bb2a9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/verbb/formie/zipball/f040e8cb9cc9c86a1f6e599a60535cf79719e2eb",
-                "reference": "f040e8cb9cc9c86a1f6e599a60535cf79719e2eb",
+                "url": "https://api.github.com/repos/verbb/formie/zipball/2ca538a56bc22fa43a73bc5557784b52b25bb2a9",
+                "reference": "2ca538a56bc22fa43a73bc5557784b52b25bb2a9",
                 "shasum": ""
             },
             "require": {
@@ -9879,7 +9879,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2026-10-14T00:17:05+00:00"
+            "time": "2026-10-14T00:20:30+00:00"
         },
         {
             "name": "verbb/tiptap",

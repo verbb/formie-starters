@@ -20,3 +20,4 @@
 - Fixed client-rendered examples failing to render fields from the current Formie response metadata.
 - Fixed Vue component examples reporting invalid required error-summary props.
 - Fixed hosted Next.js navigation and direct frontend route deployment support.
+- Fixed local hosted frontend routes returning 404 when opened directly.

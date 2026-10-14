@@ -151,10 +151,11 @@ function buildUsageSnippet(example: DemoExample, demo: GraphqlDemo, scenario: Re
       'useEffect(() => {',
       '  void fetch(graphqlEndpoint, {',
       "    method: 'POST',",
-      "    credentials: 'same-origin',",
+      "    credentials: 'omit',",
       '    headers: {',
       "      'Content-Type': 'application/json',",
       "      Accept: 'application/json',",
+      "      'X-Formie-Profile': 'cross-origin-public',",
       '    },',
       '    body: JSON.stringify({',
       '      query,',
@@ -186,7 +187,7 @@ function buildUsageSnippet(example: DemoExample, demo: GraphqlDemo, scenario: Re
     const query = [
       'query FrontendForm($handle: String!) {',
       '  formieClientForm(handle: $handle) {',
-      '    schemaVersion',
+      '    contractVersion',
       '    definition',
       '    session {',
       '      id',
@@ -204,7 +205,7 @@ function buildUsageSnippet(example: DemoExample, demo: GraphqlDemo, scenario: Re
       "import { useEffect, useState } from 'react';",
       "import {",
       "  FormieForm,",
-      "  type FrontendFormEnvelope,",
+      "  type ClientFormBootstrap,",
       "  type FormieFieldProps,",
       "  type FormieFieldComponentProps,",
       "} from '@verbb/formie-react';",
@@ -233,15 +234,16 @@ function buildUsageSnippet(example: DemoExample, demo: GraphqlDemo, scenario: Re
       '  );',
       '}',
       '',
-      'const [definition, setDefinition] = useState<FrontendFormEnvelope | null>(null);',
+      'const [definition, setDefinition] = useState<ClientFormBootstrap | null>(null);',
       '',
       'useEffect(() => {',
       '  void fetch(graphqlEndpoint, {',
       "    method: 'POST',",
-      "    credentials: 'same-origin',",
+      "    credentials: 'omit',",
       '    headers: {',
       "      'Content-Type': 'application/json',",
       "      Accept: 'application/json',",
+      "      'X-Formie-Profile': 'cross-origin-public',",
       '    },',
       '    body: JSON.stringify({',
       '      query,',
@@ -265,6 +267,7 @@ function buildUsageSnippet(example: DemoExample, demo: GraphqlDemo, scenario: Re
       "        type: 'graphql',",
       '        endpoint: graphqlEndpoint,',
       `        formHandle: '${example.handle}',`,
+      "        profile: 'cross-origin-public',",
       '      },',
       '    }}',
       '    components={{',
@@ -287,10 +290,11 @@ function buildUsageSnippet(example: DemoExample, demo: GraphqlDemo, scenario: Re
       '',
       'const response = await fetch(endpoint, {',
       "  method: 'POST',",
-      "  credentials: 'same-origin',",
+      "  credentials: 'omit',",
       '  headers: {',
       "    'Content-Type': 'application/json',",
       "    Accept: 'application/json',",
+      "    'X-Formie-Profile': 'cross-origin-public',",
       '  },',
       '  body: JSON.stringify({',
       '    query: mutation,',
@@ -311,6 +315,7 @@ function buildHtmlHookSnippet(example: DemoExample, scenario: RestScenario): str
     '',
     'const form = useFormieHtml({',
     "  transport: 'graphql',",
+    "  profile: 'cross-origin-public',",
     `  endpoint: '${GRAPHQL_ENDPOINT}',`,
     `  formHandle: '${example.handle}',`,
     `  theme: '${scenario.theme}',`,
@@ -370,12 +375,14 @@ export function GraphqlRoute({ mode, search, navigate, toAppHref }: GraphqlRoute
   const htmlMount = useFormieHtml(useMemo(() => {
     const options: {
       transport: 'graphql';
+      profile: 'cross-origin-public';
       endpoint: string;
       formHandle: string;
       theme: 'formie' | 'none' | undefined;
       themeConfig?: RestScenario['themeConfig'];
     } = {
       transport: 'graphql' as const,
+      profile: 'cross-origin-public' as const,
       endpoint: GRAPHQL_ENDPOINT,
       formHandle: selectedExample.handle,
       theme: selectedScenario.theme,

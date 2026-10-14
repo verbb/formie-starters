@@ -4,19 +4,17 @@ This starter is a lighter Next.js companion to the main React review app. It cov
 
 ## Setup
 
-1. Install workspace dependencies from the monorepo root (the folder that contains both `formie-plugin-repo` and `formie-starters-repo`):
+1. From the `formie-starters-repo` root, install this starter’s dependencies:
 
 ```bash
-npm install
+npm install --prefix next
 ```
 
 2. Copy the environment file:
 
 ```bash
-cp formie-starters-repo/next/.env.example formie-starters-repo/next/.env.local
+cp next/.env.example next/.env.local
 ```
-
-If you are already inside `formie-starters-repo`, use `cp next/.env.example next/.env.local`.
 
 3. Set **`NEXT_PUBLIC_FORMIE_BASE_URL`** in `.env.local` to your Craft site origin (the example file uses a typical ddev URL). The browser calls Craft **directly** from `http://localhost:3001`, so ensure Craft allows that origin for CORS (and cookies if you rely on session cookies across sites).
 
@@ -31,7 +29,7 @@ If you are already inside `formie-starters-repo`, use `cp next/.env.example next
 6. Start the app:
 
 ```bash
-npm run dev -w starter-next
+npm run dev:next
 ```
 
 7. Open [http://localhost:3001](http://localhost:3001).

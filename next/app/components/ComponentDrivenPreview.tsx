@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import {
   FormieClientForm,
-  type FrontendFormEnvelope,
+  type ClientFormBootstrap,
   type FormieFieldProps,
   type FormieFieldComponentProps,
   type FormieReactEvent,
@@ -104,20 +104,22 @@ export function ComponentDrivenPreview({
   graphqlEndpoint,
   onEvent,
 }: ComponentDrivenPreviewProps) {
-  const [graphqlDefinition, setGraphqlDefinition] = useState<FrontendFormEnvelope | null>(null);
+  const [graphqlDefinition, setGraphqlDefinition] = useState<ClientFormBootstrap | null>(null);
   const [graphqlError, setGraphqlError] = useState<string | null>(null);
   const formSource = useMemo(() => {
     return source === 'graphql'
       ? {
-          definition: graphqlDefinition as FrontendFormEnvelope,
+          definition: graphqlDefinition as ClientFormBootstrap,
           transport: {
             type: 'graphql' as const,
+            profile: 'cross-origin-public' as const,
             endpoint: graphqlEndpoint as string,
             formHandle: handle,
           },
         }
       : {
           transport: 'rest' as const,
+          profile: 'cross-origin-public' as const,
           endpoint: baseUrl,
           formHandle: handle,
         };

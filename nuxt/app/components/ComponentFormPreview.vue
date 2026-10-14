@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import {
-  FRONTEND_CLIENT_EVENT_NAMES,
+  CLIENT_FORM_EVENT_NAMES,
   compositePartDefinitions,
-  createFrontendFormInstance,
-  createGraphqlFrontendTransport,
-  createRestFrontendTransport,
+  createClientFormInstance,
+  createGraphqlClientTransport,
+  createRestClientTransport,
   isCompositeField,
-  loadFrontendEnvelope,
-  loadGraphqlFrontendEnvelope,
-  type FrontendFieldDefinition,
-  type FrontendFormInstance,
-  type FrontendFormState,
+  loadClientFormBootstrap,
+  loadGraphqlClientFormBootstrap,
+  type ClientFieldDefinition,
+  type ClientFormInstance,
+  type ClientFormState,
 } from '@verbb/formie-core';
 import { computed, onBeforeUnmount, onMounted, ref, shallowRef, watch } from 'vue';
 
@@ -27,8 +27,8 @@ const emit = defineEmits<{
 
 const loadError = ref<string | null>(null);
 const loading = ref(true);
-const instance = shallowRef<FrontendFormInstance | null>(null);
-const state = ref<FrontendFormState | null>(null);
+const instance = shallowRef<ClientFormInstance | null>(null);
+const state = ref<ClientFormState | null>(null);
 
 let unsubscribeState: (() => void) | null = null;
 const eventUnbinds: Array<() => void> = [];
@@ -75,7 +75,7 @@ function setAgree(fieldId: string, checked: boolean) {
   instance.value?.setValue(fieldId, checked);
 }
 
-function fieldHidden(field: FrontendFieldDefinition): boolean {
+function fieldHidden(field: ClientFieldDefinition): boolean {
   return state.value?.fieldStates[field.id]?.hidden === true;
 }
 
@@ -83,7 +83,7 @@ function fieldErrors(fieldId: string): string[] {
   return state.value?.errors.fields[fieldId] || [];
 }
 
-function optionList(field: FrontendFieldDefinition): Array<{ label: string; value: string }> {
+function optionList(field: ClientFieldDefinition): Array<{ label: string; value: string }> {
   const opts = field.input.options;
   if (!Array.isArray(opts)) {
     return [];
@@ -97,11 +97,11 @@ function optionList(field: FrontendFieldDefinition): Array<{ label: string; valu
   });
 }
 
-function placeholderForField(field: FrontendFieldDefinition): string | undefined {
+function placeholderForField(field: ClientFieldDefinition): string | undefined {
   return typeof field.input.placeholder === 'string' ? field.input.placeholder : undefined;
 }
 
-function isChecked(field: FrontendFieldDefinition, optValue: string): boolean {
+function isChecked(field: ClientFieldDefinition, optValue: string): boolean {
   const v = state.value?.values[field.id];
   if (field.type === 'checkboxes' && Array.isArray(v)) {
     return v.map(String).includes(optValue);
@@ -109,7 +109,7 @@ function isChecked(field: FrontendFieldDefinition, optValue: string): boolean {
   return false;
 }
 
-function toggleCheckbox(field: FrontendFieldDefinition, optValue: string, checked: boolean) {
+function toggleCheckbox(field: ClientFieldDefinition, optValue: string, checked: boolean) {
   const r = instance.value;
   if (!r) {
     return;
@@ -142,32 +142,36 @@ async function bootstrap() {
 
   try {
     const envelope = props.source === 'graphql'
-      ? await loadGraphqlFrontendEnvelope({
+      ? await loadGraphqlClientFormBootstrap({
         endpoint: props.graphqlEndpoint,
+        profile: 'cross-origin-public',
         formHandle: props.handle,
       })
-      : await loadFrontendEnvelope({
+      : await loadClientFormBootstrap({
         endpoint: props.baseUrl,
+        profile: 'cross-origin-public',
         formHandle: props.handle,
       });
 
     const transport = props.source === 'graphql'
-      ? createGraphqlFrontendTransport({
+      ? createGraphqlClientTransport({
         endpoint: props.graphqlEndpoint,
+        profile: 'cross-origin-public',
         formHandle: props.handle,
       })
-      : createRestFrontendTransport({
+      : createRestClientTransport({
         endpoint: props.baseUrl,
+        profile: 'cross-origin-public',
         formHandle: props.handle,
       });
 
-    const rt = createFrontendFormInstance({ envelope, transport });
+    const rt = createClientFormInstance({ envelope, transport });
     instance.value = rt;
     unsubscribeState = rt.subscribe((s) => {
       state.value = s;
     });
 
-    FRONTEND_CLIENT_EVENT_NAMES.forEach((name) => {
+    CLIENT_FORM_EVENT_NAMES.forEach((name) => {
       eventUnbinds.push(rt.on(name, (payload) => {
         emit('event', { name, payload });
       }));

@@ -178,7 +178,7 @@ pre.demo-code[class*="language-"] {
   box-shadow: 0 0 0 3px rgba(196, 181, 253, 0.35);
 }
 
-/* Match Vue starter: component-mode actions from <formie-core-form> use the same class names. */
+/* Match Vue starter: component-mode actions from <formie-client-form> use the same class names. */
 .starter-component-form .formie-page-actions {
   display: flex;
   flex-wrap: wrap;

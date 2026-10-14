@@ -11,8 +11,8 @@
   "dependencies": {
     "@friendlycaptcha/sdk": "^1.0.0",
     "@placekit/autocomplete-js": "^2.2.1",
-    "@verbb/formie-browser": "1.0.0",
-    "@verbb/formie-react": "1.0.0",
+    "@verbb/formie-browser": "1.0.14",
+    "@verbb/formie-react": "1.0.14",
     "expression-language": "^2.5.4",
     "flatpickr": "^4.6.13",
     "friendly-challenge": "^0.9.19",
@@ -31,7 +31,7 @@
     "@types/prismjs": "^1.26.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "eslint": "^10",
+    "eslint": "^9.39.1",
     "eslint-config-next": "16.2.4",
     "tailwindcss": "^4",
     "typescript": "^6"

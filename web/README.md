@@ -1,26 +1,24 @@
 # Formie Web Components Starter
 
-Vanilla + Vite review app for `formie-form` (server-rendered mode) and `<formie-core-form>` (client-rendered mode). Same transport stories as the React/Vue starters, without a framework shell.
+Vanilla + Vite review app for `formie-form` (server-rendered mode) and `<formie-client-form>` (client-rendered mode). Same transport stories as the React/Vue starters, without a framework shell.
 
 This starter imports the browser CSS directly and calls `registerFormieWebComponents()` during app startup, so custom elements are registered before the preview routes mount examples.
 
 ## Setup
 
-1. Install workspace dependencies from the monorepo root (the folder that contains both `formie-plugin-repo` and `formie-starters-repo`):
+1. From the `formie-starters-repo` root, install this starter’s dependencies:
 
 ```bash
-npm install
+npm install --prefix web
 ```
 
 2. Copy the starter environment file:
 
 ```bash
-cp formie-starters-repo/web/.env.example formie-starters-repo/web/.env
+cp web/.env.example web/.env
 ```
 
-If you are already inside `formie-starters-repo`, use `cp web/.env.example web/.env`.
-
-3. Set **`VITE_FORMIE_BASE_URL`** in `.env` to your Craft site origin (the example file uses a typical ddev URL). The browser calls Craft **directly** from the Vite dev origin (port **5176** by default), so ensure Craft allows that origin for CORS (and cookies if you rely on session cookies across sites).
+3. Set **`VITE_FORMIE_BASE_URL`** in `.env` to your Craft site origin (the example file uses a typical ddev URL). The browser calls Craft **directly** from the Vite dev origin (port **5175** by default), so ensure Craft allows that origin for CORS (and cookies if you rely on session cookies across sites).
 
 4. Optional: **`VITE_FORMIE_GRAPHQL_ENDPOINT`** if GraphQL is not `{base}/api`.
 
@@ -33,16 +31,10 @@ If you are already inside `formie-starters-repo`, use `cp web/.env.example web/.
 6. Start the app:
 
 ```bash
-npm run dev -w starter-wc
+npm run dev:web
 ```
 
-If you prefer an explicit prefix from the monorepo root:
-
-```bash
-npm run dev --prefix formie-starters-repo/web
-```
-
-7. Open the URL Vite prints (typically [http://localhost:5176](http://localhost:5176)).
+7. Open [http://localhost:5175](http://localhost:5175).
 
 ## Locale and translations
 

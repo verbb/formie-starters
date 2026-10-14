@@ -4,19 +4,17 @@ This starter is the Nuxt companion to the Vue review app. It covers the same fou
 
 ## Setup
 
-1. Install workspace dependencies from the monorepo root (the folder that contains both `formie-plugin-repo` and `formie-starters-repo`):
+1. From the `formie-starters-repo` root, install this starter’s dependencies:
 
 ```bash
-npm install
+npm install --prefix nuxt
 ```
 
 2. Copy the starter environment file:
 
 ```bash
-cp formie-starters-repo/nuxt/.env.example formie-starters-repo/nuxt/.env
+cp nuxt/.env.example nuxt/.env
 ```
-
-If you are already inside `formie-starters-repo`, use `cp nuxt/.env.example nuxt/.env`.
 
 3. Set **`NUXT_PUBLIC_FORMIE_BASE_URL`** in `.env` to your Craft site origin (the example file uses a typical ddev URL). The browser calls Craft **directly** from `http://localhost:3002`, so ensure Craft allows that origin for CORS (and cookies if you rely on session cookies across sites).
 
@@ -31,7 +29,7 @@ If you are already inside `formie-starters-repo`, use `cp nuxt/.env.example nuxt
 6. Start the app:
 
 ```bash
-npm run dev -w starter-nuxt
+npm run dev:nuxt
 ```
 
 7. Open [http://localhost:3002](http://localhost:3002).

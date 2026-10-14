@@ -1,5 +1,5 @@
 /** Default when `NEXT_PUBLIC_FORMIE_BASE_URL` is unset (typical ddev HTTPS URL). Override in `.env.local`. */
-const DEFAULT_FORMIE_BASE_URL = "https://craft.ddev.site:8443";
+const DEFAULT_FORMIE_BASE_URL = "https://craft.ddev.site";
 
 export function resolveFormieBaseUrl(): string {
   const fromEnv = process.env.NEXT_PUBLIC_FORMIE_BASE_URL;

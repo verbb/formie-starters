@@ -122,7 +122,7 @@ export default function StarterApp({ initialPathname = '/server-rendered/rest', 
       return;
     }
 
-    navigate(`/server-rendered/rest${location.search}`, { replace: true });
+    window.history.replaceState({}, '', toAppHref(`/server-rendered/rest${location.search}`));
   }, [location.pathname, location.search]);
 
   return (

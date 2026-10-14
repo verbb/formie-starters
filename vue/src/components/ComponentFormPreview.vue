@@ -37,6 +37,7 @@ const formSource = computed((): FormieDefinitionSource => {
   if (props.source === 'graphql') {
     return {
       transport: 'graphql',
+      profile: 'cross-origin-public',
       endpoint: props.graphqlEndpoint || '',
       formHandle: props.handle,
     };
@@ -44,6 +45,7 @@ const formSource = computed((): FormieDefinitionSource => {
 
   return {
     transport: 'rest',
+    profile: 'cross-origin-public',
     endpoint: props.baseUrl,
     formHandle: props.handle,
   };
@@ -145,7 +147,32 @@ const StarterTextField = defineComponent({
   },
 });
 
+const StarterErrorSummary = defineComponent({
+  name: 'StarterErrorSummary',
+  props: {
+    errors: {
+      type: Array as PropType<string[]>,
+      required: true,
+    },
+  },
+  setup(errorProps) {
+    return () => errorProps.errors.length
+      ? h('div', {
+        class: 'formie-vue-errors',
+        role: 'alert',
+      }, [
+        h('ul', errorProps.errors.map((error, index) => {
+          return h('li', {
+            key: `${error}:${index}`,
+          }, error);
+        })),
+      ])
+      : null;
+  },
+});
+
 const components = {
+  ErrorSummary: StarterErrorSummary,
   Field: StarterField,
 };
 

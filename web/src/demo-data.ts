@@ -1,5 +1,5 @@
 /** Default when `VITE_FORMIE_BASE_URL` is unset (typical ddev HTTPS URL). Override in `.env`. */
-const DEFAULT_FORMIE_BASE_URL = 'https://craft.ddev.site:8443';
+const DEFAULT_FORMIE_BASE_URL = 'https://craft.ddev.site';
 
 function resolveFormieBaseUrl(): string {
   const fromEnv = import.meta.env.VITE_FORMIE_BASE_URL as string | undefined;
@@ -215,7 +215,7 @@ export const GRAPHQL_DEMOS: GraphqlDemo[] = [
     mode: 'client-rendered',
     title: 'Component payload query',
     summary: 'Fetch the dedicated frontend contract through GraphQL and map it into a minimal renderer.',
-    description: 'Uses the same `formieClientForm` envelope as the React starter, rendered here with `createFrontendFormInstance` from `@verbb/formie-core`.',
+    description: 'Uses the same `formieClientForm` envelope as the React starter, rendered here with `createClientFormInstance` from `@verbb/formie-core`.',
   },
   {
     id: 'submit-mutation',

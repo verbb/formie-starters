@@ -1,7 +1,7 @@
 import './style.css';
 import '@verbb/formie-browser/css/formie-base.css';
 import '@verbb/formie-browser/css/formie-theme.css';
-import { registerFormieWebComponents, type FormieCoreForm, type FormieFormElement } from '@verbb/formie-web-components';
+import { registerFormieWebComponents, type FormieClientFormElement, type FormieFormElement } from '@verbb/formie-web-components';
 import {
   DEFAULT_EXAMPLE_ID,
   DEFAULT_GRAPHQL_DEMO_ID,
@@ -812,8 +812,9 @@ async function mountRoutePreview(ctx: RouteContext): Promise<void> {
     if (ctx.previewIsHtml) {
       bindPreviewDomEvents(previewSurface);
       const formElement = document.createElement('formie-form') as FormieFormElement;
-      formElement.mode = 'html';
+      formElement.mode = 'server-rendered';
       formElement.transport = ctx.route.transport;
+      formElement.setAttribute('request-profile', 'cross-origin-public');
       formElement.formHandle = ctx.selectedExample.handle;
       formElement.endpoint = ctx.route.transport === 'graphql' ? GRAPHQL_ENDPOINT : FORMIE_BASE_URL;
       formElement.theme = ctx.activeHtmlScenario.theme;
@@ -827,8 +828,9 @@ async function mountRoutePreview(ctx: RouteContext): Promise<void> {
       };
     } else {
       bindPreviewDomEvents(previewSurface);
-      const coreForm = document.createElement('formie-core-form') as FormieCoreForm;
+      const coreForm = document.createElement('formie-client-form') as FormieClientFormElement;
       coreForm.formHandle = ctx.selectedExample.handle;
+      coreForm.profile = 'cross-origin-public';
       coreForm.endpoint = ctx.route.transport === 'graphql' ? GRAPHQL_ENDPOINT : FORMIE_BASE_URL;
       coreForm.transport = ctx.route.transport;
       inner.append(coreForm);

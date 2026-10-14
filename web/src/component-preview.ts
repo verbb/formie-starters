@@ -1,19 +1,19 @@
 import {
   compositePartDefinitions,
-  createFrontendFormInstance,
-  createGraphqlFrontendTransport,
-  createRestFrontendTransport,
-  FRONTEND_CLIENT_EVENT_NAMES,
+  createClientFormInstance,
+  createGraphqlClientTransport,
+  createRestClientTransport,
+  CLIENT_FORM_EVENT_NAMES,
   isCompositeField,
   isRepeatableField,
-  loadFrontendEnvelope,
-  loadGraphqlFrontendEnvelope,
+  loadClientFormBootstrap,
+  loadGraphqlClientFormBootstrap,
 } from '@verbb/formie-core';
 import type {
-  FrontendFieldDefinition,
-  FrontendFormInstance,
-  FrontendFormState,
-  FrontendSubmitAction,
+  ClientFieldDefinition,
+  ClientFormInstance,
+  ClientFormState,
+  ClientSubmitAction,
 } from '@verbb/formie-core';
 
 export type ComponentPreviewOptions = {
@@ -28,7 +28,7 @@ export type ComponentPreviewHandle = {
   destroy(): Promise<void>;
 };
 
-function fieldsOnPage(state: FrontendFormState): FrontendFieldDefinition[] {
+function fieldsOnPage(state: ClientFormState): ClientFieldDefinition[] {
   const page = state.definition.pages.find((p) => {
     return p.id === state.currentPageId;
   });
@@ -42,16 +42,16 @@ function fieldsOnPage(state: FrontendFormState): FrontendFieldDefinition[] {
   });
 }
 
-function fieldContract(field: FrontendFieldDefinition): Record<string, unknown> {
+function fieldContract(field: ClientFieldDefinition): Record<string, unknown> {
   return field.input && typeof field.input === 'object' ? field.input as Record<string, unknown> : {};
 }
 
-function fieldPlaceholder(field: FrontendFieldDefinition): string | undefined {
+function fieldPlaceholder(field: ClientFieldDefinition): string | undefined {
   const contract = fieldContract(field);
   return typeof contract.placeholder === 'string' ? contract.placeholder : undefined;
 }
 
-function resolveRendererType(field: FrontendFieldDefinition): string {
+function resolveRendererType(field: ClientFieldDefinition): string {
   const contract = fieldContract(field);
   const fieldKind = typeof contract.fieldKind === 'string' ? contract.fieldKind : '';
 
@@ -78,7 +78,7 @@ function resolveRendererType(field: FrontendFieldDefinition): string {
   return field.type;
 }
 
-function renderUnsupportedField(container: HTMLElement, field: FrontendFieldDefinition): void {
+function renderUnsupportedField(container: HTMLElement, field: ClientFieldDefinition): void {
   const wrap = document.createElement('div');
   wrap.className = 'starter-core-field mb-5 rounded-2xl border border-amber-200 bg-amber-50/80 p-4 text-sm text-amber-900';
   wrap.innerHTML = `
@@ -96,15 +96,15 @@ function escapeHtml(value: string): string {
     .replaceAll('"', '&quot;');
 }
 
-function partErrors(state: FrontendFormState, parentId: string, partHandle: string): string[] {
+function partErrors(state: ClientFormState, parentId: string, partHandle: string): string[] {
   return state.errors.fields[`${parentId}.${partHandle}`] || [];
 }
 
 function renderPartControl(
-  parentField: FrontendFieldDefinition,
-  part: FrontendFieldDefinition,
-  state: FrontendFormState,
-  instance: FrontendFormInstance,
+  parentField: ClientFieldDefinition,
+  part: ClientFieldDefinition,
+  state: ClientFormState,
+  instance: ClientFormInstance,
 ): HTMLElement {
   const partWrap = document.createElement('div');
   partWrap.className = 'starter-component-subfield';
@@ -161,9 +161,9 @@ function renderPartControl(
 
 function renderField(
   container: HTMLElement,
-  field: FrontendFieldDefinition,
-  state: FrontendFormState,
-  instance: FrontendFormInstance,
+  field: ClientFieldDefinition,
+  state: ClientFormState,
+  instance: ClientFormInstance,
 ): void {
   const fs = state.fieldStates[field.id];
   if (fs?.hidden) {
@@ -385,8 +385,8 @@ function renderField(
 
 function renderActions(
   container: HTMLElement,
-  state: FrontendFormState,
-  instance: FrontendFormInstance,
+  state: ClientFormState,
+  instance: ClientFormInstance,
 ): void {
   const page = state.definition.pages.find((p) => {
     return p.id === state.currentPageId;
@@ -406,7 +406,7 @@ function renderActions(
     btn.textContent = sec.label;
     btn.disabled = state.status === 'submitting';
     btn.addEventListener('click', () => {
-      void instance.submit(sec.type as FrontendSubmitAction);
+      void instance.submit(sec.type as ClientSubmitAction);
     });
     bar.appendChild(btn);
   });
@@ -417,14 +417,14 @@ function renderActions(
   primary.textContent = page.actions.primary.label;
   primary.disabled = state.status === 'submitting';
   primary.addEventListener('click', () => {
-    void instance.submit(page.actions.primary.type as FrontendSubmitAction);
+    void instance.submit(page.actions.primary.type as ClientSubmitAction);
   });
   bar.appendChild(primary);
 
   container.appendChild(bar);
 }
 
-function renderMessages(container: HTMLElement, state: FrontendFormState): void {
+function renderMessages(container: HTMLElement, state: ClientFormState): void {
   const { lastSubmitResult } = state;
   if (!lastSubmitResult) {
     return;
@@ -447,8 +447,8 @@ function renderMessages(container: HTMLElement, state: FrontendFormState): void 
 
 function paintRoot(
   root: HTMLElement,
-  state: FrontendFormState,
-  instance: FrontendFormInstance,
+  state: ClientFormState,
+  instance: ClientFormInstance,
 ): void {
   root.innerHTML = '';
   root.className = 'starter-component-form starter-core-preview text-slate-900';
@@ -491,33 +491,37 @@ export async function mountComponentPreview(
   }
 
   const envelope = source === 'graphql'
-    ? await loadGraphqlFrontendEnvelope({
+    ? await loadGraphqlClientFormBootstrap({
       endpoint: graphqlEndpoint as string,
+      profile: 'cross-origin-public',
       formHandle: handle,
     })
-    : await loadFrontendEnvelope({
+    : await loadClientFormBootstrap({
       endpoint: baseUrl,
+      profile: 'cross-origin-public',
       formHandle: handle,
     });
 
   const transport = source === 'graphql'
-    ? createGraphqlFrontendTransport({
+    ? createGraphqlClientTransport({
       endpoint: graphqlEndpoint as string,
+      profile: 'cross-origin-public',
       formHandle: handle,
     })
-    : createRestFrontendTransport({
+    : createRestClientTransport({
       endpoint: baseUrl,
+      profile: 'cross-origin-public',
       formHandle: handle,
     });
 
-  const instance = createFrontendFormInstance({
+  const instance = createClientFormInstance({
     envelope,
     transport,
   });
 
   const unsubs: Array<() => void> = [];
 
-  FRONTEND_CLIENT_EVENT_NAMES.forEach((eventName: string) => {
+  CLIENT_FORM_EVENT_NAMES.forEach((eventName: string) => {
     unsubs.push(instance.on(eventName, (payload: unknown) => {
       onFormEvent?.(eventName, payload);
     }));

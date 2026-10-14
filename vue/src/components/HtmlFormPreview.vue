@@ -13,6 +13,7 @@ const props = defineProps<{
 
 const { rootRef, state } = useFormieHtml({
   transport: props.transport,
+  profile: 'cross-origin-public',
   endpoint: props.endpoint,
   formHandle: props.formHandle,
   theme: props.theme,

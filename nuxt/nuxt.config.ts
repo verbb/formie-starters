@@ -3,7 +3,7 @@ import { createRequire } from 'node:module'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 const isDev = process.env.NODE_ENV === 'development'
-const defaultFormieBaseUrl = 'https://craft.ddev.site:8443'
+const defaultFormieBaseUrl = 'https://craft.ddev.site'
 const appBaseURL = process.env.NUXT_APP_BASE_URL || '/'
 const require = createRequire(import.meta.url)
 const formieBrowserRoot = path.dirname(require.resolve('@verbb/formie-browser/package.json'))
@@ -66,7 +66,7 @@ export default defineNuxtConfig({
       fs: {
         allow: [
           path.resolve(__dirname),
-          path.resolve(__dirname, '../../formie-plugin-repo'),
+          path.resolve(__dirname, '../../plugin'),
         ],
       },
     },

@@ -10,21 +10,19 @@ It covers:
 
 ## Setup
 
-1. Install workspace dependencies from the monorepo root (the folder that contains both `formie-plugin-repo` and `formie-starters-repo`):
+1. From the `formie-starters-repo` root, install this starter’s dependencies:
 
 ```bash
-npm install
+npm install --prefix vue
 ```
 
 2. Copy the starter environment file:
 
 ```bash
-cp formie-starters-repo/vue/.env.example formie-starters-repo/vue/.env
+cp vue/.env.example vue/.env
 ```
 
-If you are already inside `formie-starters-repo`, use `cp vue/.env.example vue/.env`.
-
-3. Set **`VITE_FORMIE_BASE_URL`** in `.env` to your Craft site origin (the example file uses a typical ddev URL). The browser calls Craft **directly** from `http://localhost:5175`, so ensure Craft allows that origin for CORS (and cookies if you rely on session cookies across sites).
+3. Set **`VITE_FORMIE_BASE_URL`** in `.env` to your Craft site origin (the example file uses a typical ddev URL). The browser calls Craft **directly** from `http://localhost:5174`, so ensure Craft allows that origin for CORS (and cookies if you rely on session cookies across sites).
 
 4. Optional: **`VITE_FORMIE_GRAPHQL_ENDPOINT`** if GraphQL is not `{base}/api`.
 
@@ -37,10 +35,10 @@ If you are already inside `formie-starters-repo`, use `cp vue/.env.example vue/.
 6. Start the app:
 
 ```bash
-npm run dev -w starter-vue
+npm run dev:vue
 ```
 
-7. Open [http://localhost:5175](http://localhost:5175).
+7. Open [http://localhost:5174](http://localhost:5174).
 
 ## Locale and translations
 

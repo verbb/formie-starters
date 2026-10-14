@@ -4,13 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 5173",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
   "dependencies": {
-    "@verbb/formie-react": "1.0.0",
+    "@verbb/formie-react": "1.0.14",
     "prismjs": "^1.30.0",
     "react": "^19.2.5",
     "react-dom": "^19.2.5"

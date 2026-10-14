@@ -14,6 +14,7 @@ const props = defineProps<{
 
 const { rootRef, state } = useFormieHtml({
   transport: props.transport,
+  profile: 'cross-origin-public',
   endpoint: props.transport === 'graphql' ? props.graphqlEndpoint : props.restEndpoint,
   formHandle: props.formHandle,
   theme: props.theme,

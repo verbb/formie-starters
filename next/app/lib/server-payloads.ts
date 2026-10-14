@@ -1,4 +1,4 @@
-import type { FrontendFormEnvelope } from "@verbb/formie-react";
+import type { ClientFormBootstrap } from "@verbb/formie-react";
 
 // `credentials: "include"` is incompatible with `Access-Control-Allow-Origin: *` (browser rule).
 // Starters call Craft cross-origin from Vite; `same-origin` avoids credentialed CORS preflight failure
@@ -7,7 +7,7 @@ const fetchCredentials: RequestCredentials = "same-origin";
 
 type GraphqlEnvelopeResponse = {
   data?: {
-    formieClientForm?: FrontendFormEnvelope | null;
+    formieClientForm?: ClientFormBootstrap | null;
   };
   errors?: Array<{ message?: string }>;
 };
@@ -32,7 +32,15 @@ function buildUrl(baseUrl: string, path: string): string {
 }
 
 async function requestJson<T>(input: string, init: RequestInit): Promise<T> {
-  const response = await fetch(input, init);
+  const profile = typeof window === "undefined" ? "same-origin-browser" : "cross-origin-public";
+  const headers = new Headers(init.headers);
+  headers.set("X-Formie-Profile", profile);
+
+  const response = await fetch(input, {
+    ...init,
+    credentials: profile === "cross-origin-public" ? "omit" : init.credentials,
+    headers,
+  });
 
   if (!response.ok) {
     throw new Error(`Request failed with status ${response.status}.`);
@@ -41,8 +49,8 @@ async function requestJson<T>(input: string, init: RequestInit): Promise<T> {
   return response.json() as Promise<T>;
 }
 
-export async function requestRestDefinitionEnvelope(baseUrl: string, handle: string): Promise<FrontendFormEnvelope> {
-  return requestJson<FrontendFormEnvelope>(buildUrl(baseUrl, "/actions/formie/client/forms/load"), {
+export async function requestRestDefinitionEnvelope(baseUrl: string, handle: string): Promise<ClientFormBootstrap> {
+  return requestJson<ClientFormBootstrap>(buildUrl(baseUrl, "/actions/formie/client/forms/load"), {
     method: "POST",
     credentials: fetchCredentials,
     headers: {
@@ -87,7 +95,7 @@ export async function requestGraphqlDefinitionEnvelopeResponse(
       query: `
         query FrontendForm($handle: String!, $siteId: Int) {
           formieClientForm(handle: $handle, siteId: $siteId) {
-            schemaVersion
+            contractVersion
             definition
             session {
               id
@@ -105,7 +113,7 @@ export async function requestGraphqlDefinitionEnvelopeResponse(
   });
 }
 
-export async function requestGraphqlDefinitionEnvelope(graphqlEndpoint: string, handle: string): Promise<FrontendFormEnvelope> {
+export async function requestGraphqlDefinitionEnvelope(graphqlEndpoint: string, handle: string): Promise<ClientFormBootstrap> {
   const payload = await requestGraphqlDefinitionEnvelopeResponse(graphqlEndpoint, handle);
 
   if (payload.errors?.length) {

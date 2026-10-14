@@ -5,6 +5,7 @@ import { createRequire } from 'node:module'
 const isDev = process.env.NODE_ENV === 'development'
 const defaultFormieBaseUrl = 'https://craft.ddev.site'
 const appBaseURL = process.env.NUXT_APP_BASE_URL || '/'
+const appBasePath = appBaseURL.endsWith('/') ? appBaseURL : `${appBaseURL}/`
 const require = createRequire(import.meta.url)
 const formieBrowserRoot = path.dirname(require.resolve('@verbb/formie-browser/package.json'))
 
@@ -17,13 +18,17 @@ export default defineNuxtConfig({
   app: {
     baseURL: appBaseURL,
     head: {
-      link: isDev
-        ? [
-            { rel: 'stylesheet', href: '/_nuxt/assets/css/layers.css?direct' },
-            { rel: 'stylesheet', href: '/_nuxt/assets/css/formie.css?direct' },
-            { rel: 'stylesheet', href: '/_nuxt/assets/css/formie-bridge.css?direct' },
-          ]
-        : [],
+      title: 'Formie Nuxt Starter',
+      link: [
+        { rel: 'icon', type: 'image/x-icon', href: `${appBasePath}favicon.ico` },
+        ...(isDev
+          ? [
+              { rel: 'stylesheet', href: '/_nuxt/assets/css/layers.css?direct' },
+              { rel: 'stylesheet', href: '/_nuxt/assets/css/formie.css?direct' },
+              { rel: 'stylesheet', href: '/_nuxt/assets/css/formie-bridge.css?direct' },
+            ]
+          : []),
+      ],
     },
   },
   modules: ['@nuxtjs/tailwindcss'],

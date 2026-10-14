@@ -1,12 +1,14 @@
-dateModified: 1780399710
+dateModified: 1791936348
 email:
   fromEmail: formie@verbb.io
   fromName: 'Formie Starters'
   transportType: craft\mail\transportadapters\Sendmail
 meta:
   __names__:
-    06a70224-206c-457a-a344-4dbae44cce17: 'Contact Form' # Contact Form
+    2b0409e9-cb72-417d-b656-da63f03f9c04: Archived # Archived
     6d6dea9a-13d2-4658-88d5-2520c9474ad6: New # New
+    614368ed-97b8-481a-a515-a102fb8f0537: Active # Active
+    4654273e-e095-4a0f-8fd7-f02f57a0174a: Draft # Draft
     a6061a32-15c1-408a-8e4d-47f0af858dfc: 'Public Schema' # Public Schema
     dabb80e6-8dc1-4d79-838f-e45c676d1db3: 'Formie Starters' # Formie Starters
     e46fecf3-996b-4205-b776-e11ebaa738d6: 'Formie Starters' # Formie Starters
@@ -19,7 +21,123 @@ plugins:
     edition: standard
     enabled: true
     licenseKey: RQQH7631BOOKHSEA4T2UA2UH
-    schemaVersion: 4.0.9
+    schemaVersion: 4.0.81
+    settings:
+      ajaxTimeout: 10
+      alertEmails: null
+      alertEmailsUserGroup: null
+      allowLegacySignatureImageUrls: true
+      allowMultiSelectDropdowns: true
+      allowPhoneCountrySelector: true
+      allowPublicVolumes: true
+      allowedOrigins:
+        - 'http://localhost:3001'
+        - 'http://127.0.0.1:3001'
+        - 'http://localhost:3002'
+        - 'http://127.0.0.1:3002'
+        - 'http://localhost:4173'
+        - 'http://127.0.0.1:4173'
+        - 'http://localhost:4174'
+        - 'http://127.0.0.1:4174'
+        - 'http://localhost:4175'
+        - 'http://127.0.0.1:4175'
+        - 'http://localhost:5173'
+        - 'http://127.0.0.1:5173'
+        - 'http://localhost:5174'
+        - 'http://127.0.0.1:5174'
+        - 'http://localhost:5175'
+        - 'http://127.0.0.1:5175'
+      allowedSubmitMethods: both
+      anonymousClientBootstrapRateLimit: 30
+      anonymousClientRateWindowSeconds: 60
+      anonymousClientRefreshRateLimit: 120
+      compatibilityMode: true
+      completionQueryAllowlist:
+        - utm_source
+        - utm_medium
+        - utm_campaign
+        - utm_term
+        - utm_content
+      defaultCpSubmissionFieldConditions: follow
+      defaultEmailTemplate: ''
+      defaultErrorMessagePosition: verbb\formie\positions\BelowInput
+      defaultExportFolder: '@storage/formie-export'
+      defaultFormStencil: ''
+      defaultFormTemplate: ''
+      defaultInstructionsPosition: verbb\formie\positions\AboveInput
+      defaultLabelPosition: verbb\formie\positions\AboveInput
+      defaultPage: forms
+      deliveryEvidenceRetentionDays: 30
+      emptyValuePlaceholder: 'No response.'
+      enableBackSubmission: true
+      enableCsrfValidationForGuests: true
+      enableLargeFieldStorage: false
+      enableMultiPageForms: true
+      enableUnloadWarning: true
+      encryptionKey: null
+      errorAriaLive: polite
+      filterIntegrationMapping: true
+      includeDraftElementUsage: false
+      includeFlatpickrCss: true
+      includeRevisionElementUsage: false
+      integrationAlertEmails: null
+      integrationAlertEmailsUserGroup: null
+      integrationApiErrorHandling:
+        -
+          __assoc__:
+            -
+              - severity
+              - rate_limited
+            -
+              - action
+              - logWarning
+        -
+          __assoc__:
+            -
+              - severity
+              - rejected
+            -
+              - action
+              - logWarning
+        -
+          __assoc__:
+            -
+              - severity
+              - failure
+            -
+              - action
+              - failQueue
+      maxEmailAttachmentSizeMb: 15
+      maxIncompleteSubmissionAge: 30
+      maxSentNotificationsAge: 30
+      maxStagedUploadBytes: 67108864
+      maxStagedUploadFiles: 50
+      outputConsoleMessages: true
+      paymentWebhookProxyUrl: null
+      pdfPaperOrientation: portrait
+      pdfPaperSize: letter
+      plainTextHtmlSanitizationMode: preserve
+      pluginName: Formie
+      queuePriority: null
+      redirectUri: null
+      reportAsyncExportRowThreshold: 1000
+      reportExportSingleUseDownload: true
+      reportInteractiveExportExpiryHours: 72
+      reportScheduledExportExpiryHours: 48
+      reportTablePageSize: 100
+      saveResumeTokenTtlDays: 14
+      sendEmailAlerts: false
+      sendIntegrationAlerts: false
+      sentNotifications: true
+      setOnlyCurrentPagePayload: false
+      staticCacheRefreshOnLoad: false
+      submissionSidebarFormOrder: dateCreatedDesc
+      submissionStateRetentionDays: 30
+      submissionsBehaviour: all
+      useCssLayers: false
+      useQueueForIntegrations: true
+      useQueueForNotifications: true
+      validateCustomTemplates: true
   sprig:
     edition: standard
     enabled: true
@@ -28,7 +146,7 @@ system:
   edition: solo
   live: true
   name: 'Formie Starters'
-  schemaVersion: 5.9.0.8
+  schemaVersion: 5.11.0.2
   timeZone: America/Los_Angeles
 users:
   allowPublicRegistration: false

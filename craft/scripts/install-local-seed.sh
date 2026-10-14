@@ -27,8 +27,8 @@ cat <<'EOF'
 
 Formie Craft starter is ready.
 
-URL: https://craft.ddev.site:8443/
-Control panel: https://craft.ddev.site:8443/admin
+URL: https://craft.ddev.site/
+Control panel: https://craft.ddev.site/admin
 Username: admin
 Password: password
 EOF

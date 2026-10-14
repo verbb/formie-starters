@@ -1,5 +1,12 @@
 /.env
+/.ddev/.env.web
+/.ddev/docker-compose.*.local.yaml
 /.idea
 /vendor
+/web/react
+/web/vue
+/web/web
+/web/next
+/web/nuxt
 .DS_Store
 /seeds/*pre-reset*.sql.gz

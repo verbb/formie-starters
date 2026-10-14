@@ -1,0 +1,146 @@
+__assoc__:
+  -
+    - data
+    -
+      __assoc__:
+        0:
+          - dataRetention
+          - forever
+        2:
+          - fileUploadsAction
+          - retain
+        3:
+          - settings
+          -
+            __assoc__:
+              0:
+                - collectIp
+                - false
+              1:
+                - collectUser
+                - false
+              5:
+                - defaultInstructionsPosition
+                - verbb\formie\positions\AboveInput
+              6:
+                - defaultLabelPosition
+                - verbb\formie\positions\AboveInput
+              7:
+                - disableCaptchas
+                - false
+              8:
+                - displayCurrentPageTitle
+                - false
+              9:
+                - displayFormTitle
+                - false
+              10:
+                - displayPageProgress
+                - false
+              11:
+                - displayPageTabs
+                - false
+              12:
+                - errorMessage
+                -
+                  -
+                    __assoc__:
+                      -
+                        - content
+                        -
+                          -
+                            __assoc__:
+                              -
+                                - text
+                                - 'Couldn’t save submission due to errors.'
+                              -
+                                - type
+                                - text
+                      -
+                        - type
+                        - paragraph
+              13:
+                - errorMessagePosition
+                - top-form
+              19:
+                - limitSubmissionsType
+                - total
+              23:
+                - progressCalculation
+                - completion
+              24:
+                - progressPosition
+                - end
+              25:
+                - progressValuePosition
+                - inside-center
+              27:
+                - requireUser
+                - false
+              28:
+                - requiredIndicator
+                - asterisk
+              29:
+                - scheduleForm
+                - false
+              32:
+                - scrollToTop
+                - true
+              33:
+                - submissionTitleFormat
+                - '{timestamp}'
+              34:
+                - submitMethod
+                - page-reload
+              35:
+                - validationOnFocus
+                - false
+              36:
+                - validationOnSubmit
+                - true
+              37:
+                - redirectTarget
+                - same-tab
+              38:
+                - hideFormAfterSubmit
+                - false
+              39:
+                - successMessage
+                -
+                  -
+                    __assoc__:
+                      -
+                        - content
+                        -
+                          -
+                            __assoc__:
+                              -
+                                - text
+                                - 'Submission saved.'
+                              -
+                                - type
+                                - text
+                      -
+                        - type
+                        - paragraph
+              41:
+                - successMessagePosition
+                - top-form
+              42:
+                - completionBehavior
+                - message
+              43:
+                - completionRedirectSource
+                - url
+        4:
+          - userDeletedAction
+          - retain
+  -
+    - defaultStatus
+    - 6d6dea9a-13d2-4658-88d5-2520c9474ad6 # New
+  -
+    - handle
+    - contactForm
+  -
+    - name
+    - 'Contact Form'

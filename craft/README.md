@@ -38,13 +38,13 @@ scripts/install-local-seed.sh
 2. Open the site:
 
 ```text
-https://craft.ddev.site:8443/
+https://craft.ddev.site/
 ```
 
 3. Log in to the control panel when needed:
 
 ```text
-https://craft.ddev.site:8443/admin
+https://craft.ddev.site/admin
 Username: admin
 Password: password
 ```

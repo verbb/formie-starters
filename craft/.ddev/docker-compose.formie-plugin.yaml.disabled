@@ -1,0 +1,6 @@
+services:
+  web:
+    volumes:
+      # Optional Verbb workspace override. Copy this file to
+      # docker-compose.formie-plugin.local.yaml to run the active plugin checkout.
+      - ../../../plugin:/var/www/html/vendor/verbb/formie

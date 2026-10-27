@@ -19,7 +19,7 @@
     "flatpickr": "^4.6.13",
     "friendly-challenge": "^0.9.19",
     "intl-tel-input": "^27.3.0",
-    "nuxt": "^4.4.2",
+    "nuxt": "^4.6.3",
     "prismjs": "^1.30.0",
     "pell": "^1.0.6",
     "signature_pad": "^5.1.3",
